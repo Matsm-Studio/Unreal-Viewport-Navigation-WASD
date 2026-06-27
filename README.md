@@ -1,4 +1,4 @@
-# Unreal Viewport Navigation 1.1.0
+# Unreal Viewport Navigation 1.1.1
 
 Unreal Engine-style viewport navigation for **Blender 4.2 and newer**. The extension uses its own modal navigation engine and does not invoke Blender's built-in Walk/Fly operator.
 

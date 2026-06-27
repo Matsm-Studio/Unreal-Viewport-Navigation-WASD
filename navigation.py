@@ -30,7 +30,7 @@ class VIEW3D_OT_uvn_navigate(Operator):
     bl_idname = "view3d.uvn_navigate"
     bl_label = "Unreal Viewport Navigation"
     bl_description = "Hold RMB and use WASD or arrow keys with Q/E like an Unreal Engine viewport"
-    bl_options = {"GRAB_CURSOR"}
+    bl_options = {"GRAB_CURSOR", "BLOCKING"}
 
     _timer = None
     _window = None

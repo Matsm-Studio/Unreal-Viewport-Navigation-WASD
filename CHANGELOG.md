@@ -1,7 +1,12 @@
 # Changelog
-- Removed the perceived RMB navigation delay: mouse movement or a navigation-key press now activates navigation immediately, while a stationary short click still opens Blender's context menu.
+
+## 1.1.1
+
+- Fixed mouse-look rotation being limited by the screen boundaries by ensuring the navigation operator properly grabs the cursor.
 
 ## 1.1.0
+
+- Removed the perceived RMB navigation delay: mouse movement or a navigation-key press now activates navigation immediately, while a stationary short click still opens Blender's context menu.
 - Added an optional **Enable RMB Click/Hold Separation** preference. Disable it to restore immediate RMB navigation.
 
 - Restored Blender's standard RMB context menu on a short click.

@@ -39,7 +39,7 @@ class VIEW3D_PT_uvn_panel(Panel):
         col.separator()
         col.prop(prefs, "speed_unit", text=_tr(prefs, "speed_unit"))
         col.prop(prefs, "move_speed", text=_tr(prefs, "base_speed"))
-        col.prop(prefs, "look_sensitivity", text=_tr(prefs, "look_sensitivity"))
+        col.prop(prefs, "look_sensitivity_ui", text=_tr(prefs, "look_sensitivity"), slider=True)
         col.prop(prefs, "movement_mode", text=_tr(prefs, "movement_mode"))
         col.prop(prefs, "invert_y", text=_tr(prefs, "invert_y"))
         col.prop(prefs, "smooth_motion", text=_tr(prefs, "smooth_motion"))

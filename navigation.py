@@ -4,6 +4,10 @@
 import math
 import time
 
+# Serial used to invalidate a pending one-shot context-menu request when a new
+# RMB interaction starts before the popup is shown.
+_CONTEXT_MENU_REQUEST_SERIAL = 0
+
 import bpy
 from bpy.types import Operator
 from mathutils import Vector
@@ -48,12 +52,16 @@ class VIEW3D_OT_uvn_navigate(Operator):
     _old_lock_rotation = False
     _draw_handle = None
     _crosshair_shader = None
+    _navigation_active = False
+    _hold_started_at = 0.0
 
     @classmethod
     def poll(cls, context):
         return context.area is not None and context.area.type == "VIEW_3D"
 
     def invoke(self, context, event):
+        global _CONTEXT_MENU_REQUEST_SERIAL
+        _CONTEXT_MENU_REQUEST_SERIAL += 1
         try:
             prefs = context.preferences.addons[__package__].preferences
         except (AttributeError, KeyError):
@@ -76,6 +84,39 @@ class VIEW3D_OT_uvn_navigate(Operator):
         self._region_pointer = region.as_pointer()
         self._rv3d = rv3d
         self._pressed = set()
+        self._active_move_keys = set()
+        self._active_nav_keys = set()
+        self._velocity = Vector((0.0, 0.0, 0.0))
+        self._cursor_hidden = False
+        self._initial_mouse = (event.mouse_x, event.mouse_y)
+        self._crosshair_shader = None
+        self._navigation_active = False
+        self._hold_started_at = time.perf_counter()
+        self._old_lock_rotation = False
+
+        self._window_manager.modal_handler_add(self)
+
+        if prefs.enable_rmb_click_hold:
+            # A lightweight timer distinguishes a normal RMB click from a hold.
+            # Full navigation state is initialized only after the configured delay.
+            # One timer tick at the actual threshold is enough. This avoids
+            # waking the modal operator 120 times per second while waiting.
+            self._timer = self._window_manager.event_timer_add(
+                max(0.01, float(prefs.rmb_hold_duration)),
+                window=self._window,
+            )
+        else:
+            # Legacy behavior: RMB starts navigation immediately and no context
+            # menu is opened when RMB is released.
+            self._activate_navigation(event)
+
+        return {"RUNNING_MODAL"}
+
+    def _activate_navigation(self, event):
+        if self._navigation_active:
+            return
+
+        prefs = self._preferences
         mode = _navigation_keys_mode(prefs)
         self._active_move_keys = set(_VERTICAL_MOVE_KEYS)
         if mode in {"WASD", "BOTH"}:
@@ -83,11 +124,7 @@ class VIEW3D_OT_uvn_navigate(Operator):
         if mode in {"ARROWS", "BOTH"}:
             self._active_move_keys.update(_ARROW_MOVE_KEYS)
         self._active_nav_keys = self._active_move_keys | _SHIFT_KEYS | _CTRL_KEYS
-        self._velocity = Vector((0.0, 0.0, 0.0))
         self._last_tick = time.perf_counter()
-        self._cursor_hidden = False
-        self._initial_mouse = (event.mouse_x, event.mouse_y)
-        self._crosshair_shader = None
 
         if event.shift:
             self._pressed.add("LEFT_SHIFT")
@@ -112,20 +149,126 @@ class VIEW3D_OT_uvn_navigate(Operator):
 
         self._add_draw_handler()
 
+        # Restore the user's original navigation update-rate setting after
+        # the short click/hold detection phase.
+        if self._timer is not None:
+            try:
+                self._window_manager.event_timer_remove(self._timer)
+            except (ReferenceError, RuntimeError):
+                pass
         hz = max(30, int(prefs.update_rate))
         self._timer = self._window_manager.event_timer_add(1.0 / hz, window=self._window)
-        self._window_manager.modal_handler_add(self)
+
+        self._navigation_active = True
         self._update_header()
         self._area.tag_redraw()
-        return {"RUNNING_MODAL"}
+
+    @staticmethod
+    def _context_menu_name(mode):
+        menu_by_mode = {
+            "OBJECT": "VIEW3D_MT_object_context_menu",
+            "EDIT_MESH": "VIEW3D_MT_edit_mesh_context_menu",
+            "EDIT_CURVE": "VIEW3D_MT_edit_curve_context_menu",
+            "EDIT_SURFACE": "VIEW3D_MT_edit_curve_context_menu",
+            "EDIT_TEXT": "VIEW3D_MT_edit_text_context_menu",
+            "EDIT_ARMATURE": "VIEW3D_MT_armature_context_menu",
+            "EDIT_METABALL": "VIEW3D_MT_edit_metaball_context_menu",
+            "EDIT_LATTICE": "VIEW3D_MT_edit_lattice_context_menu",
+            "POSE": "VIEW3D_MT_pose_context_menu",
+            "SCULPT": "VIEW3D_MT_sculpt_context_menu",
+            "PAINT_WEIGHT": "VIEW3D_MT_paint_weight_context_menu",
+            "PAINT_VERTEX": "VIEW3D_MT_paint_vertex_context_menu",
+            "PAINT_TEXTURE": "VIEW3D_MT_paint_texture_context_menu",
+            "PARTICLE": "VIEW3D_MT_particle_context_menu",
+        }
+        return menu_by_mode.get(mode, "VIEW3D_MT_object_context_menu")
+
+    def _schedule_context_menu(self):
+        global _CONTEXT_MENU_REQUEST_SERIAL
+
+        _CONTEXT_MENU_REQUEST_SERIAL += 1
+        request_serial = _CONTEXT_MENU_REQUEST_SERIAL
+        window = self._window
+        area = self._area
+        region = self._region
+        mode = getattr(bpy.context, "mode", "OBJECT")
+        menu_name = self._context_menu_name(mode)
+
+        def show_menu_once():
+            if request_serial != _CONTEXT_MENU_REQUEST_SERIAL:
+                return None
+            if window is None or area is None or region is None:
+                return None
+            try:
+                with bpy.context.temp_override(window=window, area=area, region=region):
+                    bpy.ops.wm.call_menu("INVOKE_DEFAULT", name=menu_name)
+            except (ReferenceError, RuntimeError, TypeError):
+                if menu_name != "VIEW3D_MT_object_context_menu":
+                    try:
+                        with bpy.context.temp_override(window=window, area=area, region=region):
+                            bpy.ops.wm.call_menu(
+                                "INVOKE_DEFAULT",
+                                name="VIEW3D_MT_object_context_menu",
+                            )
+                    except (ReferenceError, RuntimeError, TypeError):
+                        pass
+            return None
+
+        # Defer the popup very briefly so the current modal operator can leave
+        # Blender's event stack first. A new RMB press invalidates this request.
+        bpy.app.timers.register(show_menu_once, first_interval=0.04)
 
     def modal(self, context, event):
         try:
             if event.type == "RIGHTMOUSE" and event.value == "RELEASE":
-                return self._finish(context)
+                was_active = self._navigation_active
+                result = self._finish(context)
+                if not was_active and self._preferences.enable_rmb_click_hold:
+                    self._schedule_context_menu()
+                return result
 
             if event.type in {"ESC", "WINDOW_DEACTIVATE"}:
                 return self._finish(context)
+
+            if not self._navigation_active:
+                # Start navigation immediately as soon as the user shows
+                # navigation intent. This removes the perceived RMB delay while
+                # still preserving a completely stationary short click for the
+                # standard Blender context menu.
+                if event.type in {"MOUSEMOVE", "INBETWEEN_MOUSEMOVE"}:
+                    dx = event.mouse_x - event.mouse_prev_x
+                    dy = event.mouse_y - event.mouse_prev_y
+                    if dx or dy:
+                        self._activate_navigation(event)
+                        self._apply_mouse_look(
+                            _clamp(dx, -250.0, 250.0),
+                            _clamp(dy, -250.0, 250.0),
+                        )
+                    return {"RUNNING_MODAL"}
+
+                mode = _navigation_keys_mode(self._preferences)
+                intent_keys = set(_VERTICAL_MOVE_KEYS)
+                if mode in {"WASD", "BOTH"}:
+                    intent_keys.update(_WASD_MOVE_KEYS)
+                if mode in {"ARROWS", "BOTH"}:
+                    intent_keys.update(_ARROW_MOVE_KEYS)
+                intent_keys.update(_SHIFT_KEYS)
+                intent_keys.update(_CTRL_KEYS)
+
+                if event.type in intent_keys and event.value == "PRESS":
+                    self._activate_navigation(event)
+                    self._pressed.add(event.type)
+                    return {"RUNNING_MODAL"}
+
+                if event.type == "TIMER":
+                    event_timer = getattr(event, "timer", None)
+                    if event_timer is not None and event_timer != self._timer:
+                        return {"PASS_THROUGH"}
+                    elapsed = time.perf_counter() - self._hold_started_at
+                    if elapsed >= float(self._preferences.rmb_hold_duration):
+                        self._activate_navigation(event)
+                    return {"RUNNING_MODAL"}
+                return {"RUNNING_MODAL"}
 
             if event.type in self._active_nav_keys:
                 if event.value == "PRESS":
@@ -192,7 +335,7 @@ class VIEW3D_OT_uvn_navigate(Operator):
 
     def _apply_mouse_look(self, dx, dy):
         prefs = self._preferences
-        sensitivity = float(prefs.look_sensitivity)
+        sensitivity = float(prefs.look_sensitivity_ui) * 0.001
 
         self._yaw -= dx * sensitivity
         y_sign = -1.0 if prefs.invert_y else 1.0
@@ -441,11 +584,13 @@ class VIEW3D_OT_uvn_navigate(Operator):
                     pass
                 self._cursor_hidden = False
 
-            if self._preferences is not None and self._preferences.restore_cursor_position:
+            if self._navigation_active and self._preferences is not None and self._preferences.restore_cursor_position:
                 try:
                     self._window.cursor_warp(*self._initial_mouse)
                 except (AttributeError, ReferenceError, RuntimeError):
                     pass
+
+        self._navigation_active = False
 
         if self._pressed is not None:
             self._pressed.clear()

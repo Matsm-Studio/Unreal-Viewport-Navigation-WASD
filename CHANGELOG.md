@@ -1,4 +1,14 @@
 # Changelog
+- Removed the perceived RMB navigation delay: mouse movement or a navigation-key press now activates navigation immediately, while a stationary short click still opens Blender's context menu.
+
+## 1.1.0
+- Added an optional **Enable RMB Click/Hold Separation** preference. Disable it to restore immediate RMB navigation.
+
+- Restored Blender's standard RMB context menu on a short click.
+- RMB hold now enters navigation mode after a configurable delay.
+- Added an RMB hold-duration slider to the add-on preferences.
+- Reduced the default RMB hold delay and limited its adjustable range for faster navigation.
+- Added a Reset to Defaults button for all add-on preferences.
 
 ## 1.0.1
 

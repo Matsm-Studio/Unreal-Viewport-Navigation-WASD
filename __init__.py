@@ -5,11 +5,12 @@ import bpy
 
 from .keymaps import register_keymaps, unregister_keymaps
 from .navigation import VIEW3D_OT_uvn_navigate
-from .preferences import UVN_AddonPreferences, UVN_OT_save_preferences
+from .preferences import UVN_AddonPreferences, UVN_OT_reset_preferences, UVN_OT_save_preferences
 from .ui import VIEW3D_PT_uvn_panel
 
 _CLASSES = (
     UVN_OT_save_preferences,
+    UVN_OT_reset_preferences,
     UVN_AddonPreferences,
     VIEW3D_OT_uvn_navigate,
     VIEW3D_PT_uvn_panel,

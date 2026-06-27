@@ -34,6 +34,34 @@ class UVN_OT_save_preferences(Operator):
         self.report({"INFO"}, _tr(prefs, "preferences_saved"))
         return {"FINISHED"}
 
+class UVN_OT_reset_preferences(Operator):
+    """Restore every add-on preference to its declared default value."""
+
+    bl_idname = "uvn.reset_preferences"
+    bl_label = "Reset to Defaults"
+    bl_description = "Restore all Unreal Viewport Navigation settings to their default values"
+    bl_options = {"INTERNAL"}
+
+    def execute(self, context):
+        try:
+            prefs = context.preferences.addons[__package__].preferences
+        except (AttributeError, KeyError):
+            self.report({"ERROR"}, _tr(None, "error_prefs"))
+            return {"CANCELLED"}
+
+        for prop in prefs.bl_rna.properties:
+            identifier = prop.identifier
+            if identifier == "rna_type" or prop.is_readonly:
+                continue
+            try:
+                prefs.property_unset(identifier)
+            except (AttributeError, TypeError):
+                pass
+
+        self.report({"INFO"}, _tr(prefs, "preferences_reset"))
+        return {"FINISHED"}
+
+
 class UVN_AddonPreferences(AddonPreferences):
     bl_idname = __package__
 
@@ -56,6 +84,22 @@ class UVN_AddonPreferences(AddonPreferences):
         name="Navigate While Using Compatible Tools",
         description="Allow navigation while another tool is active when that tool does not use RMB or the selected movement keys",
         default=True,
+    )
+    enable_rmb_click_hold: BoolProperty(
+        name="Enable RMB Click/Hold Separation",
+        description="Short RMB click opens Blender's context menu; holding RMB starts navigation. Disable to restore immediate RMB navigation",
+        default=True,
+    )
+    rmb_hold_duration: FloatProperty(
+        name="RMB Hold Duration",
+        description="Time RMB must be held before navigation starts; a shorter click opens Blender's context menu",
+        default=0.09,
+        min=0.03,
+        max=0.30,
+        soft_min=0.03,
+        soft_max=0.20,
+        precision=2,
+        subtype="TIME",
     )
 
     move_speed: FloatProperty(
@@ -118,14 +162,27 @@ class UVN_AddonPreferences(AddonPreferences):
         max=1.0,
         precision=2,
     )
+    # Legacy value kept only so existing saved preferences remain readable.
+    # The interface uses look_sensitivity_ui with normal, user-friendly values.
     look_sensitivity: FloatProperty(
-        name="Mouse Sensitivity",
-        description="Mouse-look sensitivity in radians per pixel",
+        name="Legacy Mouse Sensitivity",
+        description="Legacy internal mouse sensitivity value",
         default=0.0022,
         min=0.0001,
         max=0.02,
-        soft_max=0.008,
         precision=4,
+        options={"HIDDEN"},
+    )
+    look_sensitivity_ui: FloatProperty(
+        name="Mouse Sensitivity",
+        description="Mouse-look sensitivity; 2.20 matches the previous default",
+        default=2.2,
+        min=0.1,
+        max=20.0,
+        soft_min=0.5,
+        soft_max=10.0,
+        step=10,
+        precision=2,
     )
     invert_y: BoolProperty(name="Invert Y Axis", default=False)
     movement_mode: EnumProperty(
@@ -238,8 +295,12 @@ class UVN_AddonPreferences(AddonPreferences):
         col = box.column(align=True)
         col.prop(self, "navigation_keys", text=_tr(prefs, "navigation_keys"))
         col.prop(self, "navigate_during_tools", text=_tr(prefs, "navigate_during_tools"))
+        col.prop(self, "enable_rmb_click_hold", text=_tr(prefs, "enable_rmb_click_hold"))
+        hold_row = col.row()
+        hold_row.enabled = self.enable_rmb_click_hold
+        hold_row.prop(self, "rmb_hold_duration", text=_tr(prefs, "rmb_hold_duration"), slider=True)
         col.separator()
-        col.prop(self, "look_sensitivity", text=_tr(prefs, "look_sensitivity"))
+        col.prop(self, "look_sensitivity_ui", text=_tr(prefs, "look_sensitivity"), slider=True)
         col.prop(self, "invert_y", text=_tr(prefs, "invert_y"))
         col.prop(self, "movement_mode", text=_tr(prefs, "movement_mode"))
         col.prop(self, "force_perspective", text=_tr(prefs, "force_perspective"))
@@ -288,7 +349,9 @@ class UVN_AddonPreferences(AddonPreferences):
         layout.separator()
         save_box = layout.box()
         save_box.label(text=_tr(prefs, "save_preferences_hint"), icon="INFO")
-        save_box.operator(UVN_OT_save_preferences.bl_idname, text=_tr(prefs, "save_preferences"))
+        buttons = save_box.row(align=True)
+        buttons.operator(UVN_OT_save_preferences.bl_idname, text=_tr(prefs, "save_preferences"))
+        buttons.operator(UVN_OT_reset_preferences.bl_idname, text=_tr(prefs, "reset_preferences"), icon="LOOP_BACK")
 
         layout.separator()
         layout.label(text="RMB + WASD/Arrows, Q/E, Shift, Ctrl, mouse wheel")

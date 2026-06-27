@@ -1,4 +1,4 @@
-# Unreal Viewport Navigation 1.0.1
+# Unreal Viewport Navigation 1.1.0
 
 Unreal Engine-style viewport navigation for **Blender 4.2 and newer**. The extension uses its own modal navigation engine and does not invoke Blender's built-in Walk/Fly operator.
 
@@ -6,6 +6,9 @@ Unreal Engine-style viewport navigation for **Blender 4.2 and newer**. The exten
 
 ## Features
 
+- Short RMB click opens Blender's standard context menu; hold RMB to navigate.
+- Adjustable RMB hold-duration threshold in the add-on preferences.
+- Reset to Defaults button for restoring all add-on settings.
 - Hold RMB and use WASD, arrow keys or both for game-editor-style viewport navigation.
 - Q / E vertical movement, Shift sprint and Ctrl precision movement.
 - Optional navigation while another compatible tool is active.

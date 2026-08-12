@@ -1,13 +1,22 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""3D Viewport sidebar panel."""
+"""Compact 3D Viewport sidebar panel."""
 
 from bpy.types import Panel
 
-from .shared import _header_text, _movement_keys_label, _tr
+from .preferences import UVN155_OT_reset_default_keys, _draw_enum_picker
+from .shared import (
+    _ISSUES_URL,
+    _PROJECT_URL,
+    _movement_keys_label,
+    _orbit_shortcut,
+    _shortcut_label,
+    _tr,
+)
 
-class VIEW3D_PT_uvn_panel(Panel):
+
+class VIEW3D_PT_uvn155_panel(Panel):
     bl_label = "Unreal Navigation"
-    bl_idname = "VIEW3D_PT_uvn_panel"
+    bl_idname = "VIEW3D_PT_uvn155_panel"
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
     bl_category = "Unreal"
@@ -20,41 +29,27 @@ class VIEW3D_PT_uvn_panel(Panel):
             layout.label(text=_tr(None, "no_preferences"), icon="ERROR")
             return
 
-        layout.prop(prefs, "ui_language", text=_tr(prefs, "language"))
+        _draw_enum_picker(layout, prefs, "ui_language", "language")
+        _draw_enum_picker(layout, prefs, "navigation_preset", "navigation_preset")
 
-        box = layout.box()
-        box.label(text=_tr(prefs, "controls_panel"), icon="MOUSE_MOVE")
-        col = box.column(align=True)
-        col.label(text=_tr(prefs, "hold_rmb"))
-        col.label(text=_movement_keys_label(prefs))
-        col.label(text=_tr(prefs, "qe"))
-        col.label(text=_tr(prefs, "shift_ctrl"))
-        col.label(text=_tr(prefs, "wheel"))
+        guide = layout.box()
+        guide.label(text=_tr(prefs, "how_to_use"), icon="INFO")
+        nav = _shortcut_label(prefs.navigation_mouse, prefs.navigation_modifier)
+        guide.label(text=f"{_tr(prefs, 'navigate_action')}: {nav} + {_movement_keys_label(prefs)}")
+        if prefs.enable_orbit_selection:
+            guide.label(text=f"{_tr(prefs, 'orbit_shortcut_label')}: {_orbit_shortcut(prefs)}")
 
-        box = layout.box()
-        box.label(text=_tr(prefs, "quick_settings"), icon="SETTINGS")
-        col = box.column(align=True)
-        col.prop(prefs, "navigation_keys", text=_tr(prefs, "navigation_keys"))
-        col.prop(prefs, "navigate_during_tools", text=_tr(prefs, "navigate_during_tools"))
-        col.separator()
-        col.prop(prefs, "speed_unit", text=_tr(prefs, "speed_unit"))
-        col.prop(prefs, "move_speed", text=_tr(prefs, "base_speed"))
-        col.prop(prefs, "look_sensitivity_ui", text=_tr(prefs, "look_sensitivity"), slider=True)
-        col.prop(prefs, "movement_mode", text=_tr(prefs, "movement_mode"))
-        col.prop(prefs, "invert_y", text=_tr(prefs, "invert_y"))
-        col.prop(prefs, "smooth_motion", text=_tr(prefs, "smooth_motion"))
-        col.separator()
-        col.prop(prefs, "hide_cursor", text=_tr(prefs, "hide_cursor"))
-        col.prop(prefs, "show_crosshair", text=_tr(prefs, "show_crosshair"))
-        col.prop(prefs, "show_header_speed", text=_tr(prefs, "show_header_speed"))
-        col.prop(prefs, "show_header_tutorial", text=_tr(prefs, "show_header_tutorial"))
+        quick = layout.box()
+        quick.label(text=_tr(prefs, "quick_setup"), icon="SETTINGS")
+        quick.prop(prefs, "move_speed", text=_tr(prefs, "base_speed"))
+        quick.prop(prefs, "look_sensitivity_ui", text=_tr(prefs, "look_sensitivity"), slider=True)
+        quick.prop(prefs, "camera_view_navigation", text=_tr(prefs, "camera_view_navigation"))
+        quick.prop(prefs, "enable_orbit_selection", text=_tr(prefs, "orbit_enable_short"))
 
-        box = layout.box()
-        box.label(text=_tr(prefs, "header_preview"), icon="INFO")
-        preview = _header_text(prefs)
-        box.label(text=preview if preview else _tr(prefs, "header_none"))
-
-        layout.separator()
-        layout.label(text=_tr(prefs, "version"))
-        layout.label(text=_tr(prefs, "engine"), icon="CHECKMARK")
-        layout.label(text=_tr(prefs, "best_keymap"))
+        layout.label(text=_tr(prefs, "more_settings"), icon="PREFERENCES")
+        row = layout.row(align=True)
+        row.operator(UVN155_OT_reset_default_keys.bl_idname, text=_tr(prefs, "restore_default_keys"), icon="LOOP_BACK")
+        op = row.operator("wm.url_open", text=_tr(prefs, "project_page"), icon="URL")
+        op.url = _PROJECT_URL
+        op = layout.operator("wm.url_open", text=_tr(prefs, "report_issue"), icon="ERROR")
+        op.url = _ISSUES_URL

@@ -1,12 +1,20 @@
 schema_version = "1.0.0"
 id = "unreal_viewport_navigation"
-version = "1.1.1"
+version = "1.5.5"
 name = "Unreal Viewport Navigation - WASD"
-tagline = "Unreal-style RMB navigation with selectable movement keys"
+tagline = "Unreal-style navigation with custom controls and camera orbit"
 maintainer = "Matsm Studio"
 type = "add-on"
 tags = ["3D View"]
 blender_version_min = "4.2.0"
 license = ["SPDX:GPL-3.0-or-later"]
+website = "https://github.com/Matsm-Studio/Unreal-Viewport-Navigation-WASD"
 
-support = "https://github.com/Matsm-Studio/Unreal-Viewport-Navigation-WASD/issues"
+[build]
+paths_exclude_pattern = [
+    "__pycache__/",
+    "*.py[cod]",
+    ".*",
+    "*.zip",
+    "tests/",
+]

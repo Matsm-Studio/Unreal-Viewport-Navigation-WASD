@@ -1,3 +1,14 @@
-# Reporting issues
+# Bug reports
 
-Report bugs, compatibility problems and feature requests on the Unreal Viewport Navigation page on Blender Extensions. Please include your Blender version, operating system, steps to reproduce the problem and any error shown in Blender's console.
+Report bugs, shortcut conflicts and compatibility problems here:
+
+https://github.com/Matsm-Studio/Unreal-Viewport-Navigation-WASD/issues
+
+Please include:
+
+- Blender version and operating system;
+- selected Program / Engine Profile;
+- custom shortcuts, if used;
+- whether the problem occurs in a normal viewport, Camera View or both;
+- the result of **Check Conflicts**;
+- exact steps to reproduce the problem.

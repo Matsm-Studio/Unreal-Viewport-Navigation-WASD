@@ -4,16 +4,30 @@
 import bpy
 
 from .keymaps import register_keymaps, unregister_keymaps
-from .navigation import VIEW3D_OT_uvn_navigate
-from .preferences import UVN_AddonPreferences, UVN_OT_reset_preferences, UVN_OT_save_preferences
-from .ui import VIEW3D_PT_uvn_panel
+from .navigation import (
+    VIEW3D_OT_uvn155_navigate,
+    VIEW3D_OT_uvn155_orbit_selection,
+)
+from .preferences import (
+    UVN155_AddonPreferences,
+    UVN155_OT_choose_enum,
+    UVN155_OT_check_key_conflicts,
+    UVN155_OT_reset_default_keys,
+    UVN155_OT_reset_preferences,
+    UVN155_OT_save_preferences,
+)
+from .ui import VIEW3D_PT_uvn155_panel
 
 _CLASSES = (
-    UVN_OT_save_preferences,
-    UVN_OT_reset_preferences,
-    UVN_AddonPreferences,
-    VIEW3D_OT_uvn_navigate,
-    VIEW3D_PT_uvn_panel,
+    UVN155_OT_choose_enum,
+    UVN155_OT_save_preferences,
+    UVN155_OT_reset_preferences,
+    UVN155_OT_reset_default_keys,
+    UVN155_OT_check_key_conflicts,
+    UVN155_AddonPreferences,
+    VIEW3D_OT_uvn155_orbit_selection,
+    VIEW3D_OT_uvn155_navigate,
+    VIEW3D_PT_uvn155_panel,
 )
 
 
@@ -26,11 +40,4 @@ def register():
 def unregister():
     unregister_keymaps()
     for cls in reversed(_CLASSES):
-        try:
-            bpy.utils.unregister_class(cls)
-        except RuntimeError:
-            pass
-
-
-if __name__ == "__main__":
-    register()
+        bpy.utils.unregister_class(cls)

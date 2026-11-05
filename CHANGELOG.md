@@ -1,83 +1,65 @@
-# Changelog
+# 1.6.5
 
-## 1.5.5
+Version **1.6.5** expands Unreal Viewport Navigation with optional game-engine-style editing shortcuts, faster access to Blender tools, more reliable orbit controls, new centering options, and a reorganized settings interface.
 
-The biggest Unreal Viewport Navigation update so far. This release follows the previous public version, **1.1.1**.
+## Engine Editor Shortcuts
 
-### Navigation and controls
+Added optional **Object Mode editing shortcuts** inspired by **Unreal Engine, Unity, Godot and Maya**:
 
-- Improved RMB-based game-editor-style viewport navigation.
-- Added configurable navigation mouse button and optional additional navigation key.
-- Added movement layouts for WASD, arrow keys, both layouts and fully custom movement keys.
-- Added separate custom bindings for forward, backward, left, right, up and down.
-- Added configurable Sprint and Precision keys.
-- Added configurable speed-increase and speed-decrease controls.
-- Added navigation while compatible Blender tools are active.
-- Preserved short RMB click / hold separation with an adjustable hold delay.
+- **W / E / R** — Move / Rotate / Scale tools.
+- **F** — Frame Selected.
+- **Ctrl + D** — Duplicate and Move.
+- **Unreal Engine profile:** G — Toggle viewport overlays.
+- **Unity profile:** Q — Select Tool; X — Local / Global orientation.
+- **Godot profile:** Q — Select Tool; T — Local / Global orientation; Y — Toggle snapping.
+- **Maya profile:** Q — Select Tool.
+- Added **Follow Navigation Preset** and independently selectable editor shortcut profiles.
+- Editor shortcuts are **disabled by default**, so Blender's existing Object Mode shortcuts remain unchanged until users opt in.
 
-### Motion
+## Quick Tools
 
-- Reworked motion smoothing so acceleration is clearly noticeable.
-- Added separate time-to-full-speed and braking-time controls.
-- Added immediate-stop behavior to prevent unwanted sliding after movement keys are released.
-- Added configurable motion update rate.
-- Added separate Sprint and Precision speed multipliers.
+Added a **Quick Tools** section in the Unreal 3D Viewport sidebar:
 
-### Camera and orbit
+- Select, Move, Rotate and Scale.
+- Frame Selected.
+- Duplicate.
 
-- Improved navigation while looking through the active camera.
-- Added optional direct control of the active camera in Camera View.
-- Added Orbit Around Selection.
-- **Alt + RMB + mouse movement** orbits around the selected object by default.
-- Default orbit shortcut is **Alt + RMB**.
-- Added configurable orbit mouse button and additional orbit key.
-- Added active-camera frame protection for orbiting.
-- Added Esc restore behavior when protected camera orbit is cancelled.
+The buttons work independently of optional editor shortcut activation.
 
-### Presets and custom key bindings
+## Orbit & Centering
 
-- Added navigation profiles for **Unreal Engine, Blender, Maya, Unity and Godot**.
-- Added a **Custom** profile for fully user-defined controls.
-- Profiles apply real shortcut, motion, camera and orbit settings.
-- Editing a shortcut manually switches the active profile to Custom.
-- Added a dedicated Key Bindings section so shortcut assignment is kept in one place.
-- Added an always-visible **Restore Default Keys** action.
-- Added shortcut-conflict checking for Blender and add-on keymaps.
+- Improved orbiting around selected objects to reduce view drifting and unexpected jumps.
+- Corrected the **default vertical orbit direction**; added an optional **Reverse Orbit Y** setting.
+- Added **F during Orbit** to center on the selection without changing the viewing angle or zoom.
+- Added a configurable **Ctrl + Alt + F** viewport shortcut for centering without first entering Orbit.
+- Added a **Center Orbit on Selection** button to the Unreal sidebar.
+- Added **Auto-center on Orbit Start**, optional and disabled by default.
+- Improved continued orbit movement immediately after centering.
+- Improved orbiting in Camera View, mouse handling, optional wheel zoom, and orbit sensitivity settings.
+- Improved **Esc** cancellation to restore the view from before the orbit action.
 
-### Preferences and usability
+## Controls & Keyboard Shortcuts
 
-- Redesigned Add-on Preferences to be more compact and easier to understand.
-- Added a Quick Setup area with Interface Language and Program / Engine Profile selectors.
-- Moved less-used options into collapsible sections.
-- Reworded ambiguous controls and added short in-context explanations.
-- Kept the project-page action permanently visible.
-- Added a full reset for all add-on preferences.
-- Added explicit Save on Disk support using Blender's standard preference-save operator.
+- Added a built-in **Controls & Keyboard Shortcuts** guide in addon preferences.
+- Shows the **currently configured** navigation, orbit, speed, centering and optional editing shortcuts.
+- Reflects changes to custom bindings and navigation/editor profiles.
+- Added English and Polish wording for the new controls guide, with English fallback in other interface languages.
 
-### Viewport information and cursor
+## Redesigned Settings
 
-- Added configurable navigation information with speed and control hints.
-- Added positions for viewport header, top-left, top-right, bottom-left, bottom-center and bottom-right.
-- Added split top / bottom mode.
-- Added independent toggles for speed and control hints.
-- Added HUD text size and opacity controls.
-- Added Cross, Cross + Dot, Dot, Circle and Filled Circle crosshair styles.
-- Added configurable crosshair size, center gap, thickness and color.
-- Added cursor hiding and cursor-position restoration options.
+- Reorganized preferences into dedicated sections for Navigation, Orbit & Centering, Key Bindings, Speed, Motion, Camera & Cursor, Display, Engine Editor Shortcuts, Advanced settings, and the Controls Guide.
+- Added **Show All Settings** and **Collapse Sections** controls.
+- **Only Navigation starts expanded**; all other sections, including Orbit & Centering, start collapsed.
+- Replaced fragile custom key-picker interactions with Blender's native dropdown controls.
+- Kept options for disabled features visible, but greyed out until those features are enabled.
+- Improved grouping, option labels and in-panel shortcut explanations.
 
-### Languages
+## Stability & Bug Fixes
 
-- Expanded the interface to **15 languages**: English, Polish, German, Spanish, French, Italian, Brazilian Portuguese, Russian, Japanese, Simplified Chinese, Ukrainian, Czech, Dutch, Turkish and Korean.
-- Added translated labels for the most important selectors, controls, orbit settings and viewport information.
-
-### Project and packaging
-
-- Project page: https://github.com/Matsm-Studio/Unreal-Viewport-Navigation-WASD
-- Bug reports: https://github.com/Matsm-Studio/Unreal-Viewport-Navigation-WASD/issues
-- Removed obsolete development-only compatibility code and unused Python helpers from the release package.
-- Release package contains no `__pycache__`, `.pyc`, test files or bundled third-party libraries.
-- Cleaned the Blender extension manifest for publication.
-
-## 1.1.1
-
-- Fixed mouse-look rotation being limited by the screen boundaries by ensuring the navigation operator properly grabs the cursor.
+- Fixed cases where the settings panel showed only some available options or displayed errors.
+- Improved compatibility when Blender had cached older extension modules from another 1.6.5 package.
+- Improved class registration and cleanup after unsuccessful addon startup.
+- Isolated settings sections so an error in one group is less likely to hide the others.
+- Improved show/collapse controls and the visibility of the Speed section.
+- Improved shortcut conflict checks, keymap handling and extension reloading behavior.
+- Preserved the existing WASD navigation workflow, navigation presets, camera settings, HUD, crosshair, and supported interface languages.

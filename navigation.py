@@ -14,7 +14,7 @@ try:
 except ImportError:
     blf = None
 from bpy.types import Operator
-from mathutils import Matrix, Vector
+from mathutils import Matrix, Quaternion, Vector
 
 try:
     import gpu
@@ -35,6 +35,92 @@ from .shared import (
 def _motion_alpha(dt, response_time):
     """Frame-rate-independent response reaching 99% after response_time."""
     return 1.0 - math.exp(-4.605170186 * max(0.0, float(dt)) / max(0.001, float(response_time)))
+
+def _mouse_look_y_sign(prefs):
+    """The single vertical mouse-look rule used by RMB/WASD and Alt Orbit.
+
+    Blender mouse_y increases upwards. Without Invert Y, dragging upwards
+    increases the camera's forward pitch (looks upwards). Camera orbit
+    rotates around a fixed selection but uses the SAME forward pitch sign.
+    """
+    return -1.0 if prefs.invert_y else 1.0
+
+
+def _orbit_vertical_sign(prefs):
+    """Orbit camera *position* direction, not the RMB look-at direction.
+
+    The previous 1.6.5 default moved the orbit eye DOWN when the mouse moved
+    UP. Users confirmed that its old Reverse Alt Orbit Y=ON felt correct.
+    Make that physical orbit direction the default, using a NEW preference
+    identifier so Blender's stored pre-hotfix value cannot restore the bug.
+    """
+    direction = -_mouse_look_y_sign(prefs)
+    if getattr(prefs, "orbit_invert_y", False):
+        direction = -direction
+    return direction
+
+
+def _center_view_on_target(context, target, *, camera=None, rv3d=None):
+    """Move a viewport's focus to a world point WITHOUT changing its angle.
+
+    Normal view: preserve view_rotation/view_distance and set the view pivot.
+    Camera View: preserve camera orientation/scale and target depth while
+    shifting camera parallel to the image plane. No frame-zoom or snapping.
+    """
+    if camera is not None:
+        matrix = camera.matrix_world.copy()
+        rotation = matrix.to_quaternion().normalized()
+        eye = matrix.translation.copy()
+        forward = rotation @ Vector((0.0, 0.0, -1.0))
+        depth = (target - eye).dot(forward)
+        if depth <= 1.0e-4:
+            # A selected target behind the camera still needs to be visible.
+            depth = max(1.0, (target - eye).length,
+                        float(getattr(rv3d, "view_distance", 1.0)))
+        camera.matrix_world = Matrix.LocRotScale(
+            target - forward * depth, rotation, matrix.to_scale()
+        )
+        _tag_all_view3d_redraw(context)
+    else:
+        if rv3d is None:
+            return False
+        rv3d.view_location = target.copy()
+        area = getattr(context, "area", None)
+        if area is not None:
+            area.tag_redraw()
+    return True
+
+
+class VIEW3D_OT_uvn155_center_orbit(Operator):
+    """Center the orbit pivot on the selection without changing view angle."""
+
+    bl_idname = "view3d.uvn155_center_orbit"
+    bl_label = "Center Orbit on Selection"
+    bl_description = "Center the selected model in the viewport without changing rotation or zoom"
+    bl_options = {"REGISTER"}
+
+    @classmethod
+    def poll(cls, context):
+        return bool(
+            getattr(getattr(context, "area", None), "type", None) == "VIEW_3D"
+            and getattr(getattr(context, "space_data", None), "region_3d", None) is not None
+        )
+
+    def execute(self, context):
+        try:
+            prefs = context.preferences.addons[__package__].preferences
+        except (AttributeError, KeyError):
+            return {"CANCELLED"}
+        rv3d = context.space_data.region_3d
+        camera = _camera_from_context(context) if prefs.camera_view_navigation else None
+        target = _selection_center(context, exclude=camera)
+        if target is None:
+            self.report({"WARNING"}, _tr(prefs, "orbit_center_no_selection"))
+            return {"CANCELLED"}
+        if not _center_view_on_target(context, target, camera=camera, rv3d=rv3d):
+            return {"CANCELLED"}
+        return {"FINISHED"}
+
 
 def _camera_from_context(context):
     """Return the camera used by this 3D View only when it is in Camera View."""
@@ -102,26 +188,37 @@ def _selection_center(context, exclude=None):
 
 
 class VIEW3D_OT_uvn155_orbit_selection(Operator):
-    """Orbit the viewport or active Camera View camera around the selection."""
+    """Turntable orbit about the selected object without jumping or panning."""
 
     bl_idname = "view3d.uvn155_orbit_selection"
     bl_label = "Orbit Around Selection"
-    bl_description = "Orbit the viewport or protected Camera View camera around the selection"
+    bl_description = "Orbit around the selection while keeping its screen position stable"
     bl_options = {"REGISTER", "UNDO", "GRAB_CURSOR", "BLOCKING"}
 
     _window = None
     _area = None
+    _region = None
     _rv3d = None
     _camera = None
     _target = None
-    _distance = 1.0
-    _yaw = 0.0
-    _pitch = 0.0
     _prefs = None
     _initial_camera_matrix = None
+    _initial_camera_scale = None
     _initial_view_rotation = None
     _initial_view_location = None
     _initial_view_distance = 1.0
+    _base_view_location = None
+    _base_view_distance = 1.0
+    _initial_lock_rotation = False
+    _start_rotation = None
+    _start_eye = None
+    _start_pitch = 0.0
+    _yaw = 0.0
+    _pitch = 0.0
+    _initial_radius = 1.0
+    _distance = 1.0
+    _last_mouse_x = None
+    _pending_left_warp_target = None
 
     @classmethod
     def poll(cls, context):
@@ -149,40 +246,83 @@ class VIEW3D_OT_uvn155_orbit_selection(Operator):
 
         self._window = context.window
         self._area = context.area
+        self._region = context.region
         self._rv3d = rv3d
         self._camera = _camera_from_context(context) if self._prefs.camera_view_navigation else None
 
-        # In Camera View, exclude the camera itself from the orbit target. With
-        # protection enabled a real selected target is required, preventing an
-        # accidental orbit around the camera's own origin. Escape always restores
-        # the original camera transform. In a normal viewport, fall back to the
-        # current view pivot so orbit also works without an object selection.
-        target = _selection_center(context, exclude=self._camera)
-        if target is None:
-            if self._camera is not None and getattr(self._prefs, "protect_camera_orbit", True):
-                self.report({"WARNING"}, _tr(self._prefs, "orbit_needs_selection"))
-                return {"CANCELLED"}
-            try:
-                target = rv3d.view_location.copy()
-            except (AttributeError, ReferenceError, RuntimeError):
-                return {"CANCELLED"}
-        self._target = target
+        # Save the *whole* initial view/camera transform before changing anything.
+        # Replacing view_location with the selected object's center causes the
+        # old implementation's visible jump and makes orbit feel like panning.
+        self._initial_camera_matrix = None
+        self._initial_camera_scale = None
+        self._initial_view_rotation = rv3d.view_rotation.copy()
+        self._initial_view_location = rv3d.view_location.copy()
+        self._initial_view_distance = max(1.0e-5, float(rv3d.view_distance))
+        self._base_view_location = self._initial_view_location.copy()
+        self._base_view_distance = self._initial_view_distance
+        self._initial_lock_rotation = bool(rv3d.lock_rotation)
 
         if self._camera is not None:
             self._initial_camera_matrix = self._camera.matrix_world.copy()
-            eye = self._camera.matrix_world.translation.copy()
+            self._initial_camera_scale = self._initial_camera_matrix.to_scale()
+            self._start_rotation = self._initial_camera_matrix.to_quaternion().normalized()
+            self._start_eye = self._initial_camera_matrix.translation.copy()
         else:
-            self._initial_view_rotation = rv3d.view_rotation.copy()
-            self._initial_view_location = rv3d.view_location.copy()
-            self._initial_view_distance = float(rv3d.view_distance)
-            eye = rv3d.view_location + rv3d.view_rotation @ Vector((0.0, 0.0, rv3d.view_distance))
+            self._start_rotation = self._initial_view_rotation.normalized()
+            self._start_eye = (
+                self._initial_view_location
+                + self._start_rotation @ Vector((0.0, 0.0, self._initial_view_distance))
+            )
 
-        offset = eye - target
-        self._distance = max(1.0e-5, offset.length)
-        normal = offset / self._distance
-        self._yaw = math.atan2(normal.y, normal.x)
-        self._pitch = math.asin(_clamp(normal.z, -1.0, 1.0))
+        # A selected object is the orbit pivot. In Camera View we must never
+        # orbit the active camera around itself. Without a selection the normal
+        # viewport uses its existing pivot, never the world origin.
+        target = _selection_center(context, exclude=self._camera)
+        if target is None:
+            if self._camera is not None:
+                if getattr(self._prefs, "protect_camera_orbit", True):
+                    self.report({"WARNING"}, _tr(self._prefs, "orbit_needs_selection"))
+                    return {"CANCELLED"}
+                # The viewport view_location is NOT a reliable pivot in Camera
+                # View: derive a usable point from the physical camera instead.
+                target = (
+                    self._start_eye
+                    + self._start_rotation @ Vector((0.0, 0.0, -self._initial_view_distance))
+                )
+            else:
+                target = self._initial_view_location.copy()
 
+        # Exact orbit about the eye is undefined. Use a nearby forward focus,
+        # rather than degenerating into a stationary-eye mouse look.
+        if (self._start_eye - target).length_squared < 1.0e-10:
+            target = (
+                self._start_eye
+                + self._start_rotation @ Vector((0.0, 0.0, -max(1.0, self._initial_view_distance)))
+            )
+        self._target = target.copy()
+        self._initial_radius = (self._start_eye - self._target).length
+        self._distance = self._initial_radius
+
+        # Mouse input changes camera heading/pitch, exactly like RMB mouse
+        # look. The orbit rotation is then also applied to the eye around the
+        # fixed world-space target. This keeps the selected point at precisely
+        # the same screen coordinates, even when it was initially off-center.
+        forward = self._start_rotation @ Vector((0.0, 0.0, -1.0))
+        self._start_pitch = math.asin(_clamp(forward.z, -1.0, 1.0))
+        self._pitch = self._start_pitch
+        self._yaw = 0.0
+        self._last_mouse_x = int(event.mouse_x)
+        self._pending_left_warp_target = None
+
+        # Opt-in centering is a one-time operation at the START of each orbit.
+        # With it disabled, off-center selections never jump when orbit starts.
+        # Original data remains in _initial_* so Escape fully restores it.
+        if target is not None and getattr(self._prefs, "orbit_auto_center", False):
+            _center_view_on_target(context, self._target, camera=self._camera, rv3d=self._rv3d)
+            self._rebase_orbit()
+
+        if self._initial_lock_rotation and self._camera is None:
+            rv3d.lock_rotation = False
         context.window_manager.modal_handler_add(self)
         try:
             self._window.cursor_modal_set("NONE")
@@ -191,40 +331,139 @@ class VIEW3D_OT_uvn155_orbit_selection(Operator):
         return {"RUNNING_MODAL"}
 
     def modal(self, context, event):
-        orbit_mouse = getattr(self._prefs, "orbit_mouse", "LEFTMOUSE")
+        orbit_mouse = getattr(self._prefs, "orbit_mouse", "RIGHTMOUSE")
         if event.type == orbit_mouse and event.value == "RELEASE":
             return self._finish()
         if event.type in {"ESC", "WINDOW_DEACTIVATE"}:
             self._restore()
-            return self._finish()
+            _tag_all_view3d_redraw(context)
+            return self._finish(cancelled=True)
+
+        # One-key focus while Alt+RMB is held: works even with other modifiers
+        # pressed. Resets the orbit's internal baseline but NOT the Esc snapshot.
+        if (event.type == getattr(self._prefs, "orbit_center_key", "F")
+                and event.value == "PRESS"):
+            target = _selection_center(context, exclude=self._camera)
+            if target is None:
+                self.report({"WARNING"}, _tr(self._prefs, "orbit_center_no_selection"))
+            else:
+                self._target = target.copy()
+                _center_view_on_target(context, target, camera=self._camera, rv3d=self._rv3d)
+                self._rebase_orbit()
+            return {"RUNNING_MODAL"}
+
+        if getattr(self._prefs, "orbit_wheel_zoom", False):
+            if event.type in {"WHEELUPMOUSE", "WHEELDOWNMOUSE"}:
+                step = 1 if event.type == "WHEELUPMOUSE" else -1
+                strength = float(self._prefs.orbit_zoom_strength)
+                self._distance = _clamp(
+                    self._distance * math.exp(-step * 0.12 * strength),
+                    max(1.0e-5, self._initial_radius * 1.0e-6), 1.0e12,
+                )
+                self._apply_orbit_transform(context)
+                return {"RUNNING_MODAL"}
+
         if event.type in {"MOUSEMOVE", "INBETWEEN_MOUSEMOVE"}:
-            dx = _clamp(event.mouse_x - event.mouse_prev_x, -250.0, 250.0)
-            dy = _clamp(event.mouse_y - event.mouse_prev_y, -250.0, 250.0)
+            dx, dy = self._mouse_delta(event)
             if dx or dy:
-                sensitivity = float(self._prefs.look_sensitivity_ui) * 0.001
-                self._yaw -= dx * sensitivity
-                y_sign = -1.0 if self._prefs.invert_y else 1.0
-                self._pitch += dy * sensitivity * y_sign
+                sensitivity_value = (
+                    self._prefs.orbit_look_sensitivity_ui
+                    if self._prefs.orbit_separate_sensitivity
+                    else self._prefs.look_sensitivity_ui
+                )
+                sensitivity = float(sensitivity_value) * 0.001
+                self._yaw = (self._yaw - dx * sensitivity + math.pi) % (2.0 * math.pi) - math.pi
+
+                # User-confirmed default: mouse UP moves the orbit camera UP.
+                # Looking AT a fixed target means this is the opposite forward
+                # pitch change from stationary RMB mouse-look. That is normal
+                # orbit geometry, not an inverted control.
+                self._pitch += dy * sensitivity * _orbit_vertical_sign(self._prefs)
                 self._pitch = _clamp(self._pitch, math.radians(-89.5), math.radians(89.5))
-                cp = math.cos(self._pitch)
-                offset = Vector((
-                    cp * math.cos(self._yaw),
-                    cp * math.sin(self._yaw),
-                    math.sin(self._pitch),
-                )) * self._distance
-                eye = self._target + offset
-                rotation = (self._target - eye).to_track_quat("-Z", "Y")
-                if self._camera is not None:
-                    scale = self._camera.matrix_world.to_scale()
-                    self._camera.matrix_world = Matrix.LocRotScale(eye, rotation, scale)
-                    _tag_all_view3d_redraw(context)
-                else:
-                    self._rv3d.view_rotation = rotation
-                    self._rv3d.view_location = self._target
-                    self._rv3d.view_distance = self._distance
-                    self._area.tag_redraw()
+                self._apply_orbit_transform(context)
             return {"RUNNING_MODAL"}
         return {"RUNNING_MODAL"}
+
+    def _mouse_delta(self, event):
+        """Remove native/Windows cursor-wrap jumps from both orbit axes."""
+        x = int(event.mouse_x)
+        prev_x = self._last_mouse_x
+        self._last_mouse_x = x
+        dx = float(x - prev_x) if prev_x is not None else 0.0
+        dy = float(event.mouse_y - event.mouse_prev_y)
+        region = self._region
+        if region is not None:
+            width, height = max(1, int(region.width)), max(1, int(region.height))
+            left = int(region.x) + 2
+            right = int(region.x) + width - 3
+            middle = (left + right) // 2
+            if self._pending_left_warp_target is not None and x >= middle:
+                dx = float(x - self._pending_left_warp_target)
+                self._pending_left_warp_target = None
+            elif self._pending_left_warp_target is None and abs(dx) > width * 0.5:
+                dx -= math.copysign(width, dx)
+            if abs(dy) > height * 0.5:
+                dy -= math.copysign(height, dy)
+            if self._pending_left_warp_target is None and dx < 0 and x <= left:
+                self._pending_left_warp_target = right
+                try:
+                    self._window.cursor_warp(right, int(event.mouse_y))
+                except (AttributeError, ReferenceError, RuntimeError):
+                    self._pending_left_warp_target = None
+        return _clamp(dx, -250.0, 250.0), _clamp(dy, -250.0, 250.0)
+
+    def _rebase_orbit(self):
+        """Re-anchor the current orbit after recentering, with smooth next drag.
+
+        _initial_* is deliberately preserved for Esc cancellation.
+        _base_* is used only for subsequent physical orbit transformations.
+        """
+        if self._camera is not None:
+            matrix = self._camera.matrix_world
+            self._start_rotation = matrix.to_quaternion().normalized()
+            self._start_eye = matrix.translation.copy()
+        else:
+            self._start_rotation = self._rv3d.view_rotation.normalized()
+            self._base_view_location = self._rv3d.view_location.copy()
+            self._base_view_distance = max(1.0e-5, float(self._rv3d.view_distance))
+            self._start_eye = (
+                self._base_view_location
+                + self._start_rotation @ Vector((0.0, 0.0, self._base_view_distance))
+            )
+        forward = self._start_rotation @ Vector((0.0, 0.0, -1.0))
+        self._start_pitch = math.asin(_clamp(forward.z, -1.0, 1.0))
+        self._pitch = self._start_pitch
+        self._yaw = 0.0
+        self._initial_radius = max(1.0e-5, (self._start_eye - self._target).length)
+        self._distance = self._initial_radius
+
+    def _apply_orbit_transform(self, context):
+        # One rigid turntable rotation is applied to BOTH the initial camera
+        # orientation and the eye's offset about the pivot. Unlike look-at
+        # reconstruction, it does not snap, roll the horizon or translate the
+        # model across the screen when orbiting an off-center selection.
+        yaw = Quaternion((0.0, 0.0, 1.0), self._yaw)
+        right = self._start_rotation @ Vector((1.0, 0.0, 0.0))
+        pitch = Quaternion(right, self._pitch - self._start_pitch)
+        delta = yaw @ pitch
+        rotation = (delta @ self._start_rotation).normalized()
+        zoom = self._distance / self._initial_radius
+
+        if self._camera is not None:
+            eye = self._target + (delta @ (self._start_eye - self._target)) * zoom
+            self._camera.matrix_world = Matrix.LocRotScale(eye, rotation, self._initial_camera_scale)
+            _tag_all_view3d_redraw(context)
+        else:
+            # view_location need not equal the orbit pivot: it is the center
+            # of Blender's view, and setting it to the pivot would jump the
+            # whole scene. Rotating it around the target makes eye and view
+            # orientation move together with an exactly fixed screen anchor.
+            self._rv3d.view_rotation = rotation
+            self._rv3d.view_location = (
+                self._target + (delta @ (self._base_view_location - self._target)) * zoom
+            )
+            self._rv3d.view_distance = max(1.0e-5, self._base_view_distance * zoom)
+            self._area.tag_redraw()
 
     def _restore(self):
         try:
@@ -237,7 +476,12 @@ class VIEW3D_OT_uvn155_orbit_selection(Operator):
         except (AttributeError, ReferenceError, RuntimeError):
             pass
 
-    def _finish(self):
+    def _finish(self, *, cancelled=False):
+        if self._rv3d is not None and self._camera is None:
+            try:
+                self._rv3d.lock_rotation = self._initial_lock_rotation
+            except (AttributeError, ReferenceError, RuntimeError):
+                pass
         if self._window is not None:
             try:
                 self._window.cursor_modal_restore()
@@ -248,7 +492,7 @@ class VIEW3D_OT_uvn155_orbit_selection(Operator):
                 self._area.tag_redraw()
             except (ReferenceError, RuntimeError):
                 pass
-        return {"FINISHED"}
+        return {"CANCELLED"} if cancelled else {"FINISHED"}
 
 
 class VIEW3D_OT_uvn155_navigate(Operator):
@@ -276,6 +520,8 @@ class VIEW3D_OT_uvn155_navigate(Operator):
     _pitch = 0.0
     _cursor_hidden = False
     _initial_mouse = (0, 0)
+    _last_mouse_x = None
+    _pending_left_warp_target = None
     _old_lock_rotation = False
     _draw_handle = None
     _crosshair_shader = None
@@ -327,6 +573,8 @@ class VIEW3D_OT_uvn155_navigate(Operator):
         self._velocity = Vector((0.0, 0.0, 0.0))
         self._cursor_hidden = False
         self._initial_mouse = (event.mouse_x, event.mouse_y)
+        self._last_mouse_x = event.mouse_x
+        self._pending_left_warp_target = None
         self._crosshair_shader = None
         self._navigation_active = False
         self._hold_started_at = time.perf_counter()
@@ -364,6 +612,8 @@ class VIEW3D_OT_uvn155_navigate(Operator):
         self._active_move_keys = set().union(*self._action_keys.values())
         self._active_nav_keys = _all_action_keys(prefs) | _SHIFT_KEYS | _CTRL_KEYS | _ALT_KEYS
         self._last_tick = time.perf_counter()
+        self._last_mouse_x = event.mouse_x
+        self._pending_left_warp_target = None
 
         if event.shift:
             self._pressed.add("LEFT_SHIFT")
@@ -540,14 +790,16 @@ class VIEW3D_OT_uvn155_navigate(Operator):
                 return {"RUNNING_MODAL"}
 
             if event.type in {"MOUSEMOVE", "INBETWEEN_MOUSEMOVE"}:
-                dx = event.mouse_x - event.mouse_prev_x
+                dx = self._horizontal_mouse_delta(event)
                 dy = event.mouse_y - event.mouse_prev_y
                 if self._region is not None:
-                    width = max(1, int(self._region.width)); height = max(1, int(self._region.height))
-                    if abs(dx) > width * 0.5: dx -= math.copysign(width, dx)
-                    if abs(dy) > height * 0.5: dy -= math.copysign(height, dy)
-                dx = _clamp(dx, -250.0, 250.0); dy = _clamp(dy, -250.0, 250.0)
-                if dx or dy: self._apply_mouse_look(dx, dy)
+                    height = max(1, int(self._region.height))
+                    if abs(dy) > height * 0.5:
+                        dy -= math.copysign(height, dy)
+                dx = _clamp(dx, -250.0, 250.0)
+                dy = _clamp(dy, -250.0, 250.0)
+                if dx or dy:
+                    self._apply_mouse_look(dx, dy)
                 return {"RUNNING_MODAL"}
 
             if event.type == "TIMER":
@@ -583,12 +835,55 @@ class VIEW3D_OT_uvn155_navigate(Operator):
         self._yaw = math.atan2(forward.y, forward.x)
         self._pitch = math.asin(_clamp(forward.z, -1.0, 1.0))
 
+    def _horizontal_mouse_delta(self, event):
+        """Keep actual mouse motion separate from cursor wrap events.
+
+        Blender's native grab already wraps the right edge.  The left edge
+        needs a manual warp on some Windows setups.  We track one horizontal
+        baseline so a synthetic left-to-right jump never becomes right-look.
+        """
+        x = int(event.mouse_x)
+        if self._last_mouse_x is None:
+            self._last_mouse_x = x
+            return 0.0
+
+        previous = int(self._last_mouse_x)
+        self._last_mouse_x = x
+        region = self._region
+        if region is None:
+            return float(x - previous)
+
+        width = max(1, int(region.width))
+        left = int(region.x) + 2
+        right = int(region.x) + width - 3
+        middle = (left + right) // 2
+
+        if self._pending_left_warp_target is not None and x >= middle:
+            # First event after a manual warp can also include real movement.
+            # Measure it relative to the known destination, not the old edge.
+            dx = x - self._pending_left_warp_target
+            self._pending_left_warp_target = None
+        else:
+            dx = x - previous
+            if self._pending_left_warp_target is None and abs(dx) > width * 0.5:
+                # Native Blender cursor grab at the right edge.
+                dx -= math.copysign(width, dx)
+
+        if self._pending_left_warp_target is None and dx < 0 and x <= left:
+            self._pending_left_warp_target = right
+            try:
+                self._window.cursor_warp(right, int(event.mouse_y))
+            except (AttributeError, ReferenceError, RuntimeError):
+                self._pending_left_warp_target = None
+
+        return float(dx)
+
     def _apply_mouse_look(self, dx, dy):
         prefs = self._preferences
         sensitivity = float(prefs.look_sensitivity_ui) * 0.001
 
         self._yaw -= dx * sensitivity
-        y_sign = -1.0 if prefs.invert_y else 1.0
+        y_sign = _mouse_look_y_sign(prefs)
         self._pitch += dy * sensitivity * y_sign
         self._pitch = _clamp(self._pitch, math.radians(-89.5), math.radians(89.5))
         self._yaw = (self._yaw + math.pi) % (2.0 * math.pi) - math.pi
@@ -952,6 +1247,8 @@ class VIEW3D_OT_uvn155_navigate(Operator):
                     pass
 
         self._navigation_active = False
+        self._last_mouse_x = None
+        self._pending_left_warp_target = None
         self._camera_object = None
         self._action_keys = None
         if self._velocity is not None:
@@ -963,3 +1260,5 @@ class VIEW3D_OT_uvn155_navigate(Operator):
             self._active_move_keys.clear()
         if self._active_nav_keys is not None:
             self._active_nav_keys.clear()
+
+_UVN_REPAIR_BUILD = "1.6.5-navigation-only-expanded-2026-11-01"

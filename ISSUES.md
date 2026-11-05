@@ -10,5 +10,7 @@ Please include:
 - selected Program / Engine Profile;
 - custom shortcuts, if used;
 - whether the problem occurs in a normal viewport, Camera View or both;
+- the states of **Reverse Orbit Y** and **Auto-center on orbit start**;
+- whether **F while Orbit**, **Ctrl+Alt+F**, or the sidebar Center Orbit button was used;
 - the result of **Check Conflicts**;
 - exact steps to reproduce the problem.

@@ -11,9 +11,11 @@ from types import SimpleNamespace
 
 import bpy
 
+from .editor_actions import VIEW3D_OT_uvn165_editor_action, editor_shortcut_specs
 from .navigation import (
     VIEW3D_OT_uvn155_navigate,
     VIEW3D_OT_uvn155_orbit_selection,
+    VIEW3D_OT_uvn155_center_orbit,
 )
 from .shared import _key_label, _movement_action_map, _shortcut_label, _tr
 
@@ -55,6 +57,9 @@ _DEFAULT_PREFS = SimpleNamespace(
     enable_orbit_selection=True,
     orbit_mouse="RIGHTMOUSE",
     orbit_modifier="ALT",
+    orbit_center_shortcut_enabled=True,
+    orbit_center_key="F",
+    orbit_center_modifier="CTRL_ALT",
     protect_camera_orbit=True,
     ui_language="EN",
 )
@@ -106,6 +111,11 @@ def _add_exact_binding(keymap, operator_id, event_type, modifiers):
 
 
 
+def _center_key_modifiers(prefs):
+    value = getattr(prefs, "orbit_center_modifier", "CTRL_ALT")
+    return {part for part in value.split("_") if part in {"CTRL", "ALT", "SHIFT"}}
+
+
 def register_keymaps():
     unregister_keymaps()
     prefs = _get_prefs()
@@ -134,6 +144,27 @@ def register_keymaps():
                 orbit_mouse,
                 orbit_modifiers,
             )
+        if getattr(prefs, "orbit_center_shortcut_enabled", True):
+            _add_exact_binding(
+                keymap,
+                VIEW3D_OT_uvn155_center_orbit.bl_idname,
+                getattr(prefs, "orbit_center_key", "F"),
+                _center_key_modifiers(prefs),
+            )
+
+    # One object-mode keymap. Unlike the navigation keymaps, the editor layer
+    # must never override tools in Edit/Sculpt/Paint modes.
+    if getattr(prefs, "enable_editor_shortcuts", False):
+        keymap = keyconfig.keymaps.new(name="Object Mode", space_type="EMPTY", region_type="WINDOW")
+        for key, modifiers, action in editor_shortcut_specs(prefs):
+            flags = {"shift": "SHIFT" in modifiers, "ctrl": "CTRL" in modifiers,
+                     "alt": "ALT" in modifiers}
+            item = keymap.keymap_items.new(
+                VIEW3D_OT_uvn165_editor_action.bl_idname, key, "PRESS",
+                any=False, oskey=False, head=True, **flags,
+            )
+            item.properties.action = action
+            _ADDON_KEYMAPS.append((keymap, item))
 
 
 def unregister_keymaps():
@@ -175,6 +206,14 @@ def _our_shortcut_specs(prefs):
         orbit_modifier = getattr(prefs, "orbit_modifier", "ALT")
         orbit_modifiers = {orbit_modifier} if orbit_modifier != "NONE" else set()
         specs.append(("orbit", getattr(prefs, "orbit_mouse", "RIGHTMOUSE"), orbit_modifiers, False))
+    if getattr(prefs, "orbit_center_shortcut_enabled", True):
+        specs.append((
+            "center orbit", getattr(prefs, "orbit_center_key", "F"),
+            _center_key_modifiers(prefs), False,
+        ))
+    if getattr(prefs, "enable_editor_shortcuts", False):
+        for key, modifiers, action in editor_shortcut_specs(prefs):
+            specs.append(("editor " + action.lower(), key, set(modifiers), False))
     return specs
 
 
@@ -242,7 +281,7 @@ def find_key_conflicts(context, prefs):
                 if not getattr(item, "active", True):
                     continue
                 operator = getattr(item, "idname", "")
-                if operator.startswith("view3d.uvn155_"):
+                if operator.startswith(("view3d.uvn155_", "view3d.uvn165_")):
                     continue
                 if getattr(item, "value", "PRESS") not in {"PRESS", "ANY", "CLICK", "CLICK_DRAG"}:
                     continue
@@ -271,3 +310,5 @@ def find_key_conflicts(context, prefs):
                         )
                     )
     return conflicts
+
+_UVN_REPAIR_BUILD = "1.6.5-navigation-only-expanded-2026-11-01"

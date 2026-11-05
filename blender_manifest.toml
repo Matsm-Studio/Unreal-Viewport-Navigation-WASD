@@ -1,8 +1,8 @@
 schema_version = "1.0.0"
 id = "unreal_viewport_navigation"
-version = "1.5.5"
+version = "1.6.5"
 name = "Unreal Viewport Navigation - WASD"
-tagline = "Unreal-style navigation with custom controls and camera orbit"
+tagline = "WASD, FPS and fly navigation with game engine shortcuts"
 maintainer = "Matsm Studio"
 type = "add-on"
 tags = ["3D View"]

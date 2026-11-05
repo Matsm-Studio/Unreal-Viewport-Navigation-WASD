@@ -221,7 +221,7 @@ _TR_ROWS = {
     'up_key': ('Up', 'W górę', 'Hoch', 'Arriba', 'Haut', 'Su', 'Cima', 'Вверх', '上', '上移'),
     'update_rate': ('Update rate', 'Częstotliwość odświeżania', 'Aktualisierungsrate', 'Frecuencia de actualización', 'Fréquence de mise à jour', 'Frequenza aggiornamento', 'Taxa de atualização', 'Частота обновления', '更新レート', '更新频率'),
     'update_rate_simple': ('60–120 Hz is recommended. Higher values only update motion more often.', 'Zalecane jest 60–120 Hz. Wyższa wartość tylko częściej aktualizuje ruch.', '60–120 Hz werden empfohlen. Höhere Werte aktualisieren die Bewegung nur häufiger.', 'Se recomiendan 60–120 Hz. Valores mayores solo actualizan el movimiento más a menudo.', '60–120 Hz sont recommandés. Une valeur supérieure met seulement le mouvement à jour plus souvent.', 'Sono consigliati 60–120 Hz. Valori maggiori aggiornano solo il movimento più spesso.', 'Recomenda-se 60–120 Hz. Valores maiores apenas atualizam o movimento com mais frequência.', 'Рекомендуется 60–120 Гц. Более высокое значение лишь чаще обновляет движение.', '60〜120 Hz を推奨します。高い値は移動の更新回数を増やすだけです。', '建议使用 60–120 Hz。更高的值只会更频繁地更新移动。'),
-    'version': ('Version 1.5.5 — Matsm Studio', 'Wersja 1.5.5 — Matsm Studio', 'Version 1.5.5 — Matsm Studio', 'Versión 1.5.5 — Matsm Studio', 'Version 1.5.5 — Matsm Studio', 'Versione 1.5.5 — Matsm Studio', 'Versão 1.5.5 — Matsm Studio', 'Версия 1.5.5 — Matsm Studio', 'バージョン 1.5.5 — Matsm Studio', '版本 1.5.5 — Matsm Studio'),
+    'version': ('Version 1.6.5 — Matsm Studio', 'Wersja 1.6.5 — Matsm Studio', 'Version 1.6.5 — Matsm Studio', 'Versión 1.6.5 — Matsm Studio', 'Version 1.6.5 — Matsm Studio', 'Versione 1.6.5 — Matsm Studio', 'Versão 1.6.5 — Matsm Studio', 'Версия 1.6.5 — Matsm Studio', 'バージョン 1.6.5 — Matsm Studio', '版本 1.6.5 — Matsm Studio'),
     'wheel_multiplier': ('Speed-step multiplier', 'Mnożnik skoku prędkości', 'Geschwindigkeitsschritt', 'Paso de velocidad', 'Pas de vitesse', 'Passo velocità', 'Passo de velocidade', 'Шаг скорости', '速度ステップ', '速度步进'),
 }
 _EXTRA_TRANSLATIONS = {
@@ -235,35 +235,35 @@ _EXTRA_TRANSLATIONS = {
         "enable_rmb_click_hold":"Зберігати звичайний клік ПКМ", "error_prefs":"Не вдалося прочитати налаштування додатка", "error_region":"Запускайте навігацію над основною областю 3D Viewport", "force_perspective":"Переходити в перспективу при старті навігації", "forward_key":"Вперед", "hide_cursor":"Приховувати системний курсор під час навігації", "how_to_use":"Як користуватися", "navigation_section":"Навігація", "speed_section":"Швидкість", "sprint_short":"Спринт", "precision_short":"Точність",
         "info_position":"Положення інформації", "show_navigation_info":"Показувати інформацію навігації", "show_speed_info":"Показувати швидкість", "show_controls_info":"Показувати підказки керування", "split_info_note":"У розділеному режимі швидкість зверху, а підказки керування знизу.", "hud_opacity":"Прозорість HUD", "hud_scale":"Розмір тексту HUD", "instant_stop":"Зупинятися одразу після відпускання клавіш руху", "invert_y":"Інвертувати вісь Y", "language":"Мова інтерфейсу", "left_key":"Ліворуч", "look_sensitivity":"Чутливість миші", "maximum_speed":"Максимальна швидкість", "minimum_speed":"Мінімальна швидкість", "more_settings":"Більше параметрів доступно в налаштуваннях додатка.",
         "motion":"Рух", "motion_help":"Налаштуйте, як швидко рух розганяється. Для точного керування залиште миттєву зупинку увімкненою.", "motion_short_note":"Менший час = швидша реакція. Частота оновлення змінює лише частоту розрахунку руху.", "movement_mode":"Напрямок руху вперед/назад", "navigate_action":"Навігація", "navigate_during_tools":"Дозволяти навігацію під час сумісних інструментів", "navigation_keys":"Схема клавіш руху", "navigation_modifier":"Додаткова клавіша навігації", "navigation_mouse":"Кнопка миші для навігації", "navigation_preset":"Профіль програми / рушія", "no_preferences":"Налаштування додатка недоступні", "none":"Немає",
-        "orbit_enable_short":"Орбіта навколо вибраного", "orbit_modifier":"Додаткова клавіша орбіти", "orbit_mouse":"Кнопка миші орбіти", "orbit_needs_selection":"Перед орбітою виберіть об’єкт", "orbit_shortcut_label":"Орбіта вибраного", "precision_key":"Клавіша точного руху", "precision_multiplier":"Множник точності", "precision_role":"{button}: точний рух ({multiplier}× швидкості)", "preferences_reset":"Налаштування додатка відновлено", "preferences_saved":"Налаштування Blender збережено", "preset_camera":"Камера / орбіта", "preset_motion":"Рух", "preset_shortcuts":"Скорочення", "project_page":"Відкрити сторінку проєкту", "protect_camera_orbit":"Захищати кадр активної камери", "quick_setup":"Швидке налаштування", "report_issue":"Повідомити про проблему", "reset_preferences":"Скинути всі налаштування", "restore_cursor":"Повернути курсор після завершення", "right_key":"Праворуч", "rmb_hold_duration":"Час утримання перед навігацією", "save_preferences":"Зберегти на диск", "show_crosshair":"Показувати приціл", "smooth_motion":"Плавний розгін і гальмування", "speed_down_key":"Зменшити швидкість", "speed_unit":"Одиниця швидкості", "speed_up_key":"Збільшити швидкість", "sprint_key":"Клавіша швидкого руху (спринт)", "sprint_multiplier":"Множник спринту", "sprint_role":"{button}: спринт під час навігації ({multiplier}× швидкості)", "up_key":"Вгору", "update_rate":"Частота оновлення руху", "version":"Версія 1.5.5 — Matsm Studio", "wheel_multiplier":"Зміна швидкості за крок коліщатка"
+        "orbit_enable_short":"Орбіта навколо вибраного", "orbit_modifier":"Додаткова клавіша орбіти", "orbit_mouse":"Кнопка миші орбіти", "orbit_needs_selection":"Перед орбітою виберіть об’єкт", "orbit_shortcut_label":"Орбіта вибраного", "precision_key":"Клавіша точного руху", "precision_multiplier":"Множник точності", "precision_role":"{button}: точний рух ({multiplier}× швидкості)", "preferences_reset":"Налаштування додатка відновлено", "preferences_saved":"Налаштування Blender збережено", "preset_camera":"Камера / орбіта", "preset_motion":"Рух", "preset_shortcuts":"Скорочення", "project_page":"Відкрити сторінку проєкту", "protect_camera_orbit":"Захищати кадр активної камери", "quick_setup":"Швидке налаштування", "report_issue":"Повідомити про проблему", "reset_preferences":"Скинути всі налаштування", "restore_cursor":"Повернути курсор після завершення", "right_key":"Праворуч", "rmb_hold_duration":"Час утримання перед навігацією", "save_preferences":"Зберегти на диск", "show_crosshair":"Показувати приціл", "smooth_motion":"Плавний розгін і гальмування", "speed_down_key":"Зменшити швидкість", "speed_unit":"Одиниця швидкості", "speed_up_key":"Збільшити швидкість", "sprint_key":"Клавіша швидкого руху (спринт)", "sprint_multiplier":"Множник спринту", "sprint_role":"{button}: спринт під час навігації ({multiplier}× швидкості)", "up_key":"Вгору", "update_rate":"Частота оновлення руху", "version":"Версія 1.6.5 — Matsm Studio", "wheel_multiplier":"Зміна швидкості за крок коліщатка"
     },
     "CS": {
         "acceleration_time":"Čas do plné rychlosti", "advanced_and_tools":"Pokročilé a nástroje", "advanced_help":"Méně používané chování, limity rychlosti, kontrola konfliktů a servisní nástroje.", "backward_key":"Dozadu", "base_speed":"Rychlost pohybu", "camera_help":"V Camera View funguje stejná navigace. Orbit obíhá kolem vybraného objektu.", "camera_orbit":"Kamera a orbit", "camera_view_navigation":"Ovládat aktivní kameru v Camera View", "check_conflicts":"Zkontrolovat konflikty", "conflicts_found":"Možné konflikty: {count}", "conflicts_none":"V aktivních klávesových mapách Blenderu a doplňků nebyly nalezeny přímé konflikty.", "conflicts_not_checked":"Po poslední změně zkratek nebylo zkontrolováno.",
         "control_presets":"Profil programu / enginu", "preset_help":"Vyberte program, jehož navigaci chcete napodobit. Profil nastaví klávesy, pohyb i orbit; ruční změna klávesy přepne na Vlastní.", "current_controls":"Aktuální ovládání", "navigation_behavior_help":"Zde se mění pocit z myši a chování pohybu. Všechny klávesy se nastavují v sekci Klávesy.", "key_bindings":"Klávesy", "key_bindings_help":"Všechny zkratky se upravují pouze zde. Ruční změna libovolné klávesy automaticky přepne profil na Vlastní.", "navigation_trigger":"Spuštění navigace", "movement_bindings":"Klávesy pohybu", "modifier_bindings":"Rychlý a přesný pohyb", "speed_bindings":"Změna rychlosti", "orbit_bindings":"Zkratka orbitu", "current_layout":"Aktivní rozložení", "uses_key":"Používá: {button}", "edit_orbit_in_keys":"Tuto zkratku změňte v sekci Klávesy.",
         "crosshair_color":"Barva zaměřovače", "crosshair_gap":"Mezera uprostřed", "crosshair_size":"Velikost zaměřovače", "crosshair_style":"Styl zaměřovače", "crosshair_thickness":"Tloušťka čáry", "deceleration_time":"Doba brzdění", "display":"Zobrazení", "display_help":"Pouze vizuální pomůcky; nemění chování navigace.", "down_key":"Dolů", "enable_rmb_click_hold":"Zachovat běžné kliknutí pravým tlačítkem", "force_perspective":"Při spuštění navigace přepnout do perspektivy", "forward_key":"Dopředu", "hide_cursor":"Při navigaci skrýt systémový kurzor", "how_to_use":"Jak používat", "navigation_section":"Navigace", "speed_section":"Rychlost", "sprint_short":"Sprint", "precision_short":"Přesnost",
         "info_position":"Umístění informací", "show_navigation_info":"Zobrazit informace o navigaci", "show_speed_info":"Zobrazit rychlost", "show_controls_info":"Zobrazit nápovědu ovládání", "split_info_note":"Rozdělený režim ponechá rychlost nahoře a nápovědu ovládání dole.", "hud_opacity":"Průhlednost HUD", "hud_scale":"Velikost textu HUD", "instant_stop":"Po uvolnění kláves pohybu okamžitě zastavit", "invert_y":"Invertovat osu Y", "language":"Jazyk rozhraní", "left_key":"Doleva", "look_sensitivity":"Citlivost myši", "maximum_speed":"Maximální rychlost", "minimum_speed":"Minimální rychlost", "more_settings":"Další možnosti jsou v nastavení doplňku.", "motion":"Pohyb", "motion_help":"Nastavte, jak rychle pohyb zrychluje. Pro přesné ovládání nechte okamžité zastavení zapnuté.", "motion_short_note":"Nižší časy reagují rychleji. Frekvence aktualizace mění pouze vzorkování pohybu.", "movement_mode":"Směr pohybu vpřed/vzad", "navigate_action":"Navigovat", "navigate_during_tools":"Povolit navigaci při používání kompatibilních nástrojů", "navigation_keys":"Rozložení kláves pohybu", "navigation_modifier":"Volitelná klávesa navigace", "navigation_mouse":"Tlačítko myši pro navigaci", "navigation_preset":"Profil programu / enginu", "no_preferences":"Nastavení doplňku není dostupné", "none":"Žádné",
-        "orbit_enable_short":"Orbit kolem výběru", "orbit_modifier":"Volitelná klávesa orbitu", "orbit_mouse":"Tlačítko myši orbitu", "orbit_needs_selection":"Před použitím orbitu vyberte objekt", "orbit_shortcut_label":"Orbit výběru", "precision_key":"Klávesa přesného pohybu", "precision_multiplier":"Násobek přesnosti", "precision_role":"{button}: přesný pohyb ({multiplier}× rychlosti)", "preferences_reset":"Nastavení doplňku obnoveno", "preferences_saved":"Nastavení Blenderu uloženo", "preset_camera":"Kamera / orbit", "preset_motion":"Pohyb", "preset_shortcuts":"Zkratky", "project_page":"Otevřít stránku projektu", "protect_camera_orbit":"Chránit záběr aktivní kamery", "quick_setup":"Rychlé nastavení", "report_issue":"Nahlásit problém", "reset_preferences":"Obnovit všechna nastavení", "restore_cursor":"Po ukončení obnovit pozici kurzoru", "right_key":"Doprava", "rmb_hold_duration":"Doba podržení před navigací", "save_preferences":"Uložit na disk", "show_crosshair":"Zobrazit zaměřovač", "smooth_motion":"Plynulé zrychlení a brzdění", "speed_down_key":"Snížit rychlost", "speed_unit":"Jednotka rychlosti", "speed_up_key":"Zvýšit rychlost", "sprint_key":"Klávesa rychlého pohybu (Sprint)", "sprint_multiplier":"Násobek sprintu", "sprint_role":"{button}: sprint při navigaci ({multiplier}× rychlosti)", "up_key":"Nahoru", "update_rate":"Frekvence aktualizace pohybu", "version":"Verze 1.5.5 — Matsm Studio", "wheel_multiplier":"Změna rychlosti na krok kolečka"
+        "orbit_enable_short":"Orbit kolem výběru", "orbit_modifier":"Volitelná klávesa orbitu", "orbit_mouse":"Tlačítko myši orbitu", "orbit_needs_selection":"Před použitím orbitu vyberte objekt", "orbit_shortcut_label":"Orbit výběru", "precision_key":"Klávesa přesného pohybu", "precision_multiplier":"Násobek přesnosti", "precision_role":"{button}: přesný pohyb ({multiplier}× rychlosti)", "preferences_reset":"Nastavení doplňku obnoveno", "preferences_saved":"Nastavení Blenderu uloženo", "preset_camera":"Kamera / orbit", "preset_motion":"Pohyb", "preset_shortcuts":"Zkratky", "project_page":"Otevřít stránku projektu", "protect_camera_orbit":"Chránit záběr aktivní kamery", "quick_setup":"Rychlé nastavení", "report_issue":"Nahlásit problém", "reset_preferences":"Obnovit všechna nastavení", "restore_cursor":"Po ukončení obnovit pozici kurzoru", "right_key":"Doprava", "rmb_hold_duration":"Doba podržení před navigací", "save_preferences":"Uložit na disk", "show_crosshair":"Zobrazit zaměřovač", "smooth_motion":"Plynulé zrychlení a brzdění", "speed_down_key":"Snížit rychlost", "speed_unit":"Jednotka rychlosti", "speed_up_key":"Zvýšit rychlost", "sprint_key":"Klávesa rychlého pohybu (Sprint)", "sprint_multiplier":"Násobek sprintu", "sprint_role":"{button}: sprint při navigaci ({multiplier}× rychlosti)", "up_key":"Nahoru", "update_rate":"Frekvence aktualizace pohybu", "version":"Verze 1.6.5 — Matsm Studio", "wheel_multiplier":"Změna rychlosti na krok kolečka"
     },
     "NL": {
         "acceleration_time":"Tijd tot volle snelheid", "advanced_and_tools":"Geavanceerd en hulpmiddelen", "advanced_help":"Minder gebruikte opties, snelheidslimieten, conflictcontrole en onderhoudshulpmiddelen.", "backward_key":"Achteruit", "base_speed":"Bewegingssnelheid", "camera_help":"Camera View gebruikt dezelfde navigatie. Orbit draait rond het geselecteerde object.", "camera_orbit":"Camera en orbit", "camera_view_navigation":"Actieve camera besturen in Camera View", "check_conflicts":"Conflicten controleren", "conflicts_found":"Mogelijke conflicten: {count}", "conflicts_none":"Geen directe conflicten gevonden in actieve Blender- en add-on-keymaps.", "conflicts_not_checked":"Niet gecontroleerd na de laatste wijziging van sneltoetsen.",
         "control_presets":"Programma-/engineprofiel", "preset_help":"Kies het programma waarvan je de navigatie wilt nabootsen. Het profiel stelt toetsen, beweging en orbit in; een handmatige toetswijziging schakelt naar Aangepast.", "current_controls":"Huidige bediening", "navigation_behavior_help":"Hier verander je het muisgevoel en bewegingsgedrag. Alle toetsen worden ingesteld in Toetsen.", "key_bindings":"Toetsen", "key_bindings_help":"Alle sneltoetsen worden alleen hier aangepast. Een handmatige wijziging schakelt het profiel automatisch naar Aangepast.", "navigation_trigger":"Navigatie starten", "movement_bindings":"Bewegingstoetsen", "modifier_bindings":"Snel en precies bewegen", "speed_bindings":"Snelheid aanpassen", "orbit_bindings":"Orbit-sneltoets", "current_layout":"Actieve indeling", "uses_key":"Gebruikt: {button}", "edit_orbit_in_keys":"Wijzig deze sneltoets in Toetsen.",
         "crosshair_color":"Kleur vizier", "crosshair_gap":"Opening in het midden", "crosshair_size":"Grootte vizier", "crosshair_style":"Stijl vizier", "crosshair_thickness":"Lijndikte", "deceleration_time":"Remtijd", "display":"Weergave", "display_help":"Alleen visuele hulpmiddelen; ze veranderen de navigatie niet.", "down_key":"Omlaag", "enable_rmb_click_hold":"Normale rechtermuisklik behouden", "force_perspective":"Bij start van navigatie naar perspectief schakelen", "forward_key":"Vooruit", "hide_cursor":"Systeemcursor verbergen tijdens navigatie", "how_to_use":"Gebruik", "navigation_section":"Navigatie", "speed_section":"Snelheid", "sprint_short":"Sprint", "precision_short":"Precisie",
         "info_position":"Positie van informatie", "show_navigation_info":"Navigatie-informatie tonen", "show_speed_info":"Snelheid tonen", "show_controls_info":"Bedieningstips tonen", "split_info_note":"Gesplitste modus houdt snelheid bovenaan en bedieningstips onderaan.", "hud_opacity":"HUD-dekking", "hud_scale":"HUD-tekstgrootte", "instant_stop":"Direct stoppen na loslaten van bewegingstoetsen", "invert_y":"Y-as omkeren", "language":"Interfacetaal", "left_key":"Links", "look_sensitivity":"Muisgevoeligheid", "maximum_speed":"Maximale snelheid", "minimum_speed":"Minimale snelheid", "more_settings":"Meer opties staan in de add-onvoorkeuren.", "motion":"Beweging", "motion_help":"Stel in hoe snel de beweging versnelt. Laat Direct stoppen aan voor nauwkeurige besturing.", "motion_short_note":"Lagere tijden reageren sneller. Updatefrequentie verandert alleen de bewegingssampling.", "movement_mode":"Richting vooruit/achteruit", "navigate_action":"Navigeren", "navigate_during_tools":"Navigatie toestaan tijdens compatibele tools", "navigation_keys":"Indeling bewegingstoetsen", "navigation_modifier":"Optionele navigatietoets", "navigation_mouse":"Muisknop voor navigatie", "navigation_preset":"Programma-/engineprofiel", "no_preferences":"Add-onvoorkeuren zijn niet beschikbaar", "none":"Geen",
-        "orbit_enable_short":"Orbit rond selectie", "orbit_modifier":"Optionele orbittoets", "orbit_mouse":"Muisknop voor orbit", "orbit_needs_selection":"Selecteer een object voordat je Orbit rond selectie gebruikt", "orbit_shortcut_label":"Orbit selectie", "precision_key":"Toets voor precieze beweging", "precision_multiplier":"Precisiefactor", "precision_role":"{button}: precieze beweging ({multiplier}× snelheid)", "preferences_reset":"Add-oninstellingen hersteld", "preferences_saved":"Blender-voorkeuren opgeslagen", "preset_camera":"Camera / orbit", "preset_motion":"Beweging", "preset_shortcuts":"Sneltoetsen", "project_page":"Projectpagina openen", "protect_camera_orbit":"Actief camerakader beschermen", "quick_setup":"Snelle instelling", "report_issue":"Probleem melden", "reset_preferences":"Alle instellingen herstellen", "restore_cursor":"Cursorpositie herstellen bij loslaten", "right_key":"Rechts", "rmb_hold_duration":"Vasthoudtijd voor navigatie", "save_preferences":"Opslaan op schijf", "show_crosshair":"Vizier tonen", "smooth_motion":"Vloeiend versnellen en remmen", "speed_down_key":"Snelheid verlagen", "speed_unit":"Snelheidseenheid", "speed_up_key":"Snelheid verhogen", "sprint_key":"Toets voor snel bewegen (Sprint)", "sprint_multiplier":"Sprintfactor", "sprint_role":"{button}: sprint tijdens navigatie ({multiplier}× snelheid)", "up_key":"Omhoog", "update_rate":"Updatefrequentie beweging", "version":"Versie 1.5.5 — Matsm Studio", "wheel_multiplier":"Snelheidswijziging per wielstap"
+        "orbit_enable_short":"Orbit rond selectie", "orbit_modifier":"Optionele orbittoets", "orbit_mouse":"Muisknop voor orbit", "orbit_needs_selection":"Selecteer een object voordat je Orbit rond selectie gebruikt", "orbit_shortcut_label":"Orbit selectie", "precision_key":"Toets voor precieze beweging", "precision_multiplier":"Precisiefactor", "precision_role":"{button}: precieze beweging ({multiplier}× snelheid)", "preferences_reset":"Add-oninstellingen hersteld", "preferences_saved":"Blender-voorkeuren opgeslagen", "preset_camera":"Camera / orbit", "preset_motion":"Beweging", "preset_shortcuts":"Sneltoetsen", "project_page":"Projectpagina openen", "protect_camera_orbit":"Actief camerakader beschermen", "quick_setup":"Snelle instelling", "report_issue":"Probleem melden", "reset_preferences":"Alle instellingen herstellen", "restore_cursor":"Cursorpositie herstellen bij loslaten", "right_key":"Rechts", "rmb_hold_duration":"Vasthoudtijd voor navigatie", "save_preferences":"Opslaan op schijf", "show_crosshair":"Vizier tonen", "smooth_motion":"Vloeiend versnellen en remmen", "speed_down_key":"Snelheid verlagen", "speed_unit":"Snelheidseenheid", "speed_up_key":"Snelheid verhogen", "sprint_key":"Toets voor snel bewegen (Sprint)", "sprint_multiplier":"Sprintfactor", "sprint_role":"{button}: sprint tijdens navigatie ({multiplier}× snelheid)", "up_key":"Omhoog", "update_rate":"Updatefrequentie beweging", "version":"Versie 1.6.5 — Matsm Studio", "wheel_multiplier":"Snelheidswijziging per wielstap"
     },
     "TR": {
         "acceleration_time":"Tam hıza ulaşma süresi", "advanced_and_tools":"Gelişmiş ve araçlar", "advanced_help":"Daha az kullanılan davranışlar, hız sınırları, çakışma kontrolü ve bakım araçları.", "backward_key":"Geri", "base_speed":"Hareket hızı", "camera_help":"Camera View aynı gezinmeyi kullanır. Yörünge seçili nesnenin etrafında döner.", "camera_orbit":"Kamera ve yörünge", "camera_view_navigation":"Camera View içinde etkin kamerayı kontrol et", "check_conflicts":"Çakışmaları kontrol et", "conflicts_found":"Olası çakışmalar: {count}", "conflicts_none":"Etkin Blender ve eklenti tuş haritalarında doğrudan çakışma bulunamadı.", "conflicts_not_checked":"Son kısayol değişikliğinden sonra kontrol edilmedi.",
         "control_presets":"Program / motor profili", "preset_help":"Gezinmesini taklit etmek istediğiniz programı seçin. Profil tuşları, hareketi ve yörüngeyi ayarlar; bir tuşu elle değiştirmek Özel profile geçirir.", "current_controls":"Geçerli kontroller", "navigation_behavior_help":"Burada fare hissi ve hareket davranışı değiştirilir. Tüm tuş atamaları Tuşlar bölümündedir.", "key_bindings":"Tuşlar", "key_bindings_help":"Tüm kısayollar yalnızca burada düzenlenir. Herhangi bir tuşu elle değiştirmek profili otomatik olarak Özel yapar.", "navigation_trigger":"Gezinmeyi başlat", "movement_bindings":"Hareket tuşları", "modifier_bindings":"Hızlı ve hassas hareket", "speed_bindings":"Hız ayarı", "orbit_bindings":"Yörünge kısayolu", "current_layout":"Etkin düzen", "uses_key":"Kullanır: {button}", "edit_orbit_in_keys":"Bu kısayolu Tuşlar bölümünde değiştirin.",
         "crosshair_color":"Nişangâh rengi", "crosshair_gap":"Merkez boşluğu", "crosshair_size":"Nişangâh boyutu", "crosshair_style":"Nişangâh stili", "crosshair_thickness":"Çizgi kalınlığı", "deceleration_time":"Frenleme süresi", "display":"Görünüm", "display_help":"Yalnızca görsel yardımcılar; gezinme davranışını değiştirmez.", "down_key":"Aşağı", "enable_rmb_click_hold":"Normal sağ tıklamayı koru", "force_perspective":"Gezinme başlayınca perspektife geç", "forward_key":"İleri", "hide_cursor":"Gezinirken sistem imlecini gizle", "how_to_use":"Nasıl kullanılır", "navigation_section":"Gezinme", "speed_section":"Hız", "sprint_short":"Sprint", "precision_short":"Hassas",
         "info_position":"Bilgi konumu", "show_navigation_info":"Gezinme bilgisini göster", "show_speed_info":"Hızı göster", "show_controls_info":"Kontrol ipuçlarını göster", "split_info_note":"Bölünmüş mod hızı üstte, kontrol ipuçlarını altta tutar.", "hud_opacity":"HUD saydamlığı", "hud_scale":"HUD metin boyutu", "instant_stop":"Hareket tuşları bırakılınca hemen dur", "invert_y":"Y eksenini ters çevir", "language":"Arayüz dili", "left_key":"Sol", "look_sensitivity":"Fare hassasiyeti", "maximum_speed":"Maksimum hız", "minimum_speed":"Minimum hız", "more_settings":"Daha fazla seçenek Eklenti Tercihleri'nde bulunur.", "motion":"Hareket", "motion_help":"Hareketin ne kadar hızlı ivmeleneceğini ayarlayın. Hassas kontrol için Anında Dur seçeneğini açık tutun.", "motion_short_note":"Daha düşük süreler daha hızlı tepki verir. Güncelleme hızı yalnızca hareket örneklemesini değiştirir.", "movement_mode":"İleri/geri hareket yönü", "navigate_action":"Gezin", "navigate_during_tools":"Uyumlu araçları kullanırken gezinmeye izin ver", "navigation_keys":"Hareket tuş düzeni", "navigation_modifier":"İsteğe bağlı gezinme tuşu", "navigation_mouse":"Gezinme fare düğmesi", "navigation_preset":"Program / motor profili", "no_preferences":"Eklenti tercihleri kullanılamıyor", "none":"Yok",
-        "orbit_enable_short":"Seçim etrafında yörünge", "orbit_modifier":"İsteğe bağlı yörünge tuşu", "orbit_mouse":"Yörünge fare düğmesi", "orbit_needs_selection":"Yörüngeyi kullanmadan önce bir nesne seçin", "orbit_shortcut_label":"Seçim yörüngesi", "precision_key":"Hassas hareket tuşu", "precision_multiplier":"Hassasiyet çarpanı", "precision_role":"{button}: hassas hareket ({multiplier}× hız)", "preferences_reset":"Eklenti ayarları varsayılana döndürüldü", "preferences_saved":"Blender tercihleri kaydedildi", "preset_camera":"Kamera / yörünge", "preset_motion":"Hareket", "preset_shortcuts":"Kısayollar", "project_page":"Proje sayfasını aç", "protect_camera_orbit":"Etkin kamera karesini koru", "quick_setup":"Hızlı kurulum", "report_issue":"Sorun bildir", "reset_preferences":"Tüm ayarları sıfırla", "restore_cursor":"Bırakınca imleç konumunu geri yükle", "right_key":"Sağ", "rmb_hold_duration":"Gezinme başlamadan bekleme süresi", "save_preferences":"Diske kaydet", "show_crosshair":"Nişangâhı göster", "smooth_motion":"Yumuşak hızlanma ve frenleme", "speed_down_key":"Hızı azalt", "speed_unit":"Hız birimi", "speed_up_key":"Hızı artır", "sprint_key":"Hızlı hareket tuşu (Sprint)", "sprint_multiplier":"Sprint çarpanı", "sprint_role":"{button}: gezinirken sprint ({multiplier}× hız)", "up_key":"Yukarı", "update_rate":"Hareket güncelleme hızı", "version":"Sürüm 1.5.5 — Matsm Studio", "wheel_multiplier":"Tekerlek adımı başına hız değişimi"
+        "orbit_enable_short":"Seçim etrafında yörünge", "orbit_modifier":"İsteğe bağlı yörünge tuşu", "orbit_mouse":"Yörünge fare düğmesi", "orbit_needs_selection":"Yörüngeyi kullanmadan önce bir nesne seçin", "orbit_shortcut_label":"Seçim yörüngesi", "precision_key":"Hassas hareket tuşu", "precision_multiplier":"Hassasiyet çarpanı", "precision_role":"{button}: hassas hareket ({multiplier}× hız)", "preferences_reset":"Eklenti ayarları varsayılana döndürüldü", "preferences_saved":"Blender tercihleri kaydedildi", "preset_camera":"Kamera / yörünge", "preset_motion":"Hareket", "preset_shortcuts":"Kısayollar", "project_page":"Proje sayfasını aç", "protect_camera_orbit":"Etkin kamera karesini koru", "quick_setup":"Hızlı kurulum", "report_issue":"Sorun bildir", "reset_preferences":"Tüm ayarları sıfırla", "restore_cursor":"Bırakınca imleç konumunu geri yükle", "right_key":"Sağ", "rmb_hold_duration":"Gezinme başlamadan bekleme süresi", "save_preferences":"Diske kaydet", "show_crosshair":"Nişangâhı göster", "smooth_motion":"Yumuşak hızlanma ve frenleme", "speed_down_key":"Hızı azalt", "speed_unit":"Hız birimi", "speed_up_key":"Hızı artır", "sprint_key":"Hızlı hareket tuşu (Sprint)", "sprint_multiplier":"Sprint çarpanı", "sprint_role":"{button}: gezinirken sprint ({multiplier}× hız)", "up_key":"Yukarı", "update_rate":"Hareket güncelleme hızı", "version":"Sürüm 1.6.5 — Matsm Studio", "wheel_multiplier":"Tekerlek adımı başına hız değişimi"
     },
     "KO": {
         "acceleration_time":"최고 속도 도달 시간", "advanced_and_tools":"고급 및 도구", "advanced_help":"덜 자주 쓰는 동작, 속도 제한, 충돌 검사와 유지 관리 도구입니다.", "backward_key":"뒤로", "base_speed":"이동 속도", "camera_help":"Camera View에서도 같은 내비게이션을 사용합니다. 오빗은 선택한 오브젝트를 중심으로 회전합니다.", "camera_orbit":"카메라 및 오빗", "camera_view_navigation":"Camera View에서 활성 카메라 제어", "check_conflicts":"충돌 확인", "conflicts_found":"가능한 충돌: {count}", "conflicts_none":"활성 Blender 및 애드온 키맵에서 직접 충돌을 찾지 못했습니다.", "conflicts_not_checked":"마지막 단축키 변경 후 확인하지 않았습니다.",
         "control_presets":"프로그램 / 엔진 프로필", "preset_help":"내비게이션을 따라 할 프로그램을 선택하세요. 프로필은 키, 이동감과 오빗을 함께 설정하며 키를 직접 바꾸면 사용자 지정으로 전환됩니다.", "current_controls":"현재 조작", "navigation_behavior_help":"여기서는 마우스 감각과 이동 동작을 바꿉니다. 모든 키 지정은 키 설정 섹션에서 합니다.", "key_bindings":"키 설정", "key_bindings_help":"모든 단축키는 여기에서만 바꿉니다. 키를 직접 변경하면 프로필이 자동으로 사용자 지정으로 전환됩니다.", "navigation_trigger":"내비게이션 시작", "movement_bindings":"이동 키", "modifier_bindings":"빠른 / 정밀 이동", "speed_bindings":"속도 조절", "orbit_bindings":"오빗 단축키", "current_layout":"현재 배열", "uses_key":"사용 키: {button}", "edit_orbit_in_keys":"이 단축키는 키 설정에서 변경하세요.",
         "crosshair_color":"조준선 색상", "crosshair_gap":"중앙 간격", "crosshair_size":"조준선 크기", "crosshair_style":"조준선 스타일", "crosshair_thickness":"선 두께", "deceleration_time":"감속 시간", "display":"표시", "display_help":"시각적 도움말만 바꾸며 내비게이션 동작에는 영향을 주지 않습니다.", "down_key":"아래", "enable_rmb_click_hold":"짧은 우클릭 유지", "force_perspective":"내비게이션 시작 시 원근 보기로 전환", "forward_key":"앞으로", "hide_cursor":"내비게이션 중 시스템 커서 숨기기", "how_to_use":"사용 방법", "navigation_section":"내비게이션", "speed_section":"속도", "sprint_short":"스프린트", "precision_short":"정밀",
         "info_position":"정보 위치", "show_navigation_info":"내비게이션 정보 표시", "show_speed_info":"속도 표시", "show_controls_info":"조작 힌트 표시", "split_info_note":"분할 모드는 속도를 위에, 조작 힌트를 아래에 표시합니다.", "hud_opacity":"HUD 불투명도", "hud_scale":"HUD 글자 크기", "instant_stop":"이동 키를 놓으면 즉시 정지", "invert_y":"Y축 반전", "language":"인터페이스 언어", "left_key":"왼쪽", "look_sensitivity":"마우스 감도", "maximum_speed":"최대 속도", "minimum_speed":"최소 속도", "more_settings":"더 많은 옵션은 애드온 환경설정에서 사용할 수 있습니다.", "motion":"모션", "motion_help":"이동이 얼마나 빠르게 가속되는지 조절합니다. 정확한 조작에는 즉시 정지를 켜 두세요.", "motion_short_note":"시간이 짧을수록 빠르게 반응합니다. 업데이트 빈도는 모션 계산 빈도만 바꿉니다.", "movement_mode":"앞/뒤 이동 방향", "navigate_action":"내비게이션", "navigate_during_tools":"호환 도구 사용 중 내비게이션 허용", "navigation_keys":"이동 키 배열", "navigation_modifier":"선택 내비게이션 보조 키", "navigation_mouse":"내비게이션 마우스 버튼", "navigation_preset":"프로그램 / 엔진 프로필", "no_preferences":"애드온 환경설정을 사용할 수 없습니다", "none":"없음",
-        "orbit_enable_short":"선택 항목 중심 오빗", "orbit_modifier":"선택 오빗 보조 키", "orbit_mouse":"오빗 마우스 버튼", "orbit_needs_selection":"오빗을 사용하기 전에 오브젝트를 선택하세요", "orbit_shortcut_label":"선택 오빗", "precision_key":"정밀 이동 키", "precision_multiplier":"정밀 이동 배율", "precision_role":"{button}: 정밀 이동 ({multiplier}× 속도)", "preferences_reset":"애드온 설정을 기본값으로 복원했습니다", "preferences_saved":"Blender 환경설정을 저장했습니다", "preset_camera":"카메라 / 오빗", "preset_motion":"모션", "preset_shortcuts":"단축키", "project_page":"프로젝트 페이지 열기", "protect_camera_orbit":"활성 카메라 프레임 보호", "quick_setup":"빠른 설정", "report_issue":"문제 신고", "reset_preferences":"모든 설정 초기화", "restore_cursor":"종료 시 커서 위치 복원", "right_key":"오른쪽", "rmb_hold_duration":"내비게이션 시작 전 누르기 시간", "save_preferences":"디스크에 저장", "show_crosshair":"조준선 표시", "smooth_motion":"부드러운 가속 및 감속", "speed_down_key":"속도 감소", "speed_unit":"속도 단위", "speed_up_key":"속도 증가", "sprint_key":"빠른 이동 키 (스프린트)", "sprint_multiplier":"스프린트 배율", "sprint_role":"{button}: 내비게이션 중 스프린트 ({multiplier}× 속도)", "up_key":"위", "update_rate":"모션 업데이트 빈도", "version":"버전 1.5.5 — Matsm Studio", "wheel_multiplier":"휠 한 단계당 속도 변경량"
+        "orbit_enable_short":"선택 항목 중심 오빗", "orbit_modifier":"선택 오빗 보조 키", "orbit_mouse":"오빗 마우스 버튼", "orbit_needs_selection":"오빗을 사용하기 전에 오브젝트를 선택하세요", "orbit_shortcut_label":"선택 오빗", "precision_key":"정밀 이동 키", "precision_multiplier":"정밀 이동 배율", "precision_role":"{button}: 정밀 이동 ({multiplier}× 속도)", "preferences_reset":"애드온 설정을 기본값으로 복원했습니다", "preferences_saved":"Blender 환경설정을 저장했습니다", "preset_camera":"카메라 / 오빗", "preset_motion":"모션", "preset_shortcuts":"단축키", "project_page":"프로젝트 페이지 열기", "protect_camera_orbit":"활성 카메라 프레임 보호", "quick_setup":"빠른 설정", "report_issue":"문제 신고", "reset_preferences":"모든 설정 초기화", "restore_cursor":"종료 시 커서 위치 복원", "right_key":"오른쪽", "rmb_hold_duration":"내비게이션 시작 전 누르기 시간", "save_preferences":"디스크에 저장", "show_crosshair":"조준선 표시", "smooth_motion":"부드러운 가속 및 감속", "speed_down_key":"속도 감소", "speed_unit":"속도 단위", "speed_up_key":"속도 증가", "sprint_key":"빠른 이동 키 (스프린트)", "sprint_multiplier":"스프린트 배율", "sprint_role":"{button}: 내비게이션 중 스프린트 ({multiplier}× 속도)", "up_key":"위", "update_rate":"모션 업데이트 빈도", "version":"버전 1.6.5 — Matsm Studio", "wheel_multiplier":"휠 한 단계당 속도 변경량"
     },
 }
 
@@ -340,6 +340,14 @@ _UI_OVERRIDES.update({
     },
 })
 
+_TR_ROWS.update({
+    "editor_shortcut_section": ("Engine Editor Shortcuts", "Skróty edytora silników", "Engine-Editor-Tasten", "Atajos del editor", "Raccourcis éditeur", "Scorciatoie editor", "Atalhos do editor", "Горячие клавиши редактора", "エディターショートカット", "编辑器快捷键"),
+    "editor_shortcut_enable": ("Enable editor shortcuts", "Włącz skróty edytora", "Editor-Tasten aktivieren", "Activar atajos", "Activer les raccourcis", "Abilita scorciatoie", "Ativar atalhos", "Включить сочетания", "ショートカットを有効化", "启用快捷键"),
+    "editor_shortcut_profile": ("Shortcut profile", "Profil skrótów", "Tastenprofil", "Perfil de atajos", "Profil des raccourcis", "Profilo scorciatoie", "Perfil de atalhos", "Профиль клавиш", "ショートカット設定", "快捷键配置"),
+    "editor_shortcut_safety": ("Optional; Object Mode only. Edit Mode keys stay unchanged.", "Opcjonalne, tylko Object Mode. Skróty Edit Mode bez zmian.", "Optional, nur Objektmodus.", "Opcional, solo modo objeto.", "Optionnel, mode objet uniquement.", "Opzionale, solo modalità oggetto.", "Opcional, apenas Modo Objeto.", "Только в режиме объектов.", "オブジェクトモードのみ。", "仅对象模式。"),
+    "editor_shortcut_active": ("Active profile", "Aktywny profil", "Aktives Profil", "Perfil activo", "Profil actif", "Profilo attivo", "Perfil ativo", "Активный профиль", "有効なプロファイル", "当前配置"),
+    "editor_shortcut_disabled_note": ("Blender's original hotkeys remain active until enabled.", "Oryginalne skróty Blendera działają, dopóki nie włączysz opcji.", "Blender-Tasten bleiben aktiv.", "Los atajos de Blender siguen activos.", "Les raccourcis Blender restent actifs.", "Le scorciatoie Blender restano attive.", "Os atalhos Blender seguem ativos.", "Сочетания Blender активны.", "Blender のキーは維持されます。", "保留 Blender 原有快捷键。"),
+})
 _EN = {key: values[0] for key, values in _TR_ROWS.items()}
 _EN.update(_UI_OVERRIDES["EN"])
 _TEXT = {
@@ -352,6 +360,176 @@ for _code in ('UK', 'CS', 'NL', 'TR', 'KO'):
     _TEXT[_code] = dict(_EN)
     _TEXT[_code].update(_EXTRA_TRANSLATIONS[_code])
     _TEXT[_code].update(_UI_OVERRIDES.get(_code, {}))
+
+# New 1.6.5 orbit controls, using the same localized labels as the existing UI.
+_UVN158_LABELS = {'EN': ('Reverse Alt Orbit Y', 'Separate Alt Orbit Sensitivity', 'Alt Orbit Sensitivity', 'Uses normal mouse sensitivity', 'Mouse Wheel Zoom in Alt Orbit', 'Orbit Zoom Strength'), 'PL': ('Odwróć Y w Alt Orbit', 'Oddziel czułość Alt Orbit', 'Czułość Alt Orbit', 'Używa zwykłej czułości myszy', 'Zoom kółkiem w Alt Orbit', 'Siła zoomu orbity'), 'DE': ('Y-Achse bei Alt Orbit umkehren', 'Eigene Alt-Orbit-Empfindlichkeit', 'Alt-Orbit-Empfindlichkeit', 'Verwendet normale Mausempfindlichkeit', 'Mausrad-Zoom bei Alt Orbit', 'Orbit-Zoomstärke'), 'ES': ('Invertir Y en Alt Orbit', 'Sensibilidad separada de Alt Orbit', 'Sensibilidad de Alt Orbit', 'Usa la sensibilidad normal del ratón', 'Zoom con rueda en Alt Orbit', 'Intensidad del zoom orbital'), 'FR': ('Inverser Y pour Alt Orbit', 'Sensibilité séparée pour Alt Orbit', 'Sensibilité Alt Orbit', 'Utilise la sensibilité normale de la souris', 'Zoom à la molette en Alt Orbit', 'Intensité du zoom orbital'), 'IT': ('Inverti Y in Alt Orbit', 'Sensibilità Alt Orbit separata', 'Sensibilità Alt Orbit', 'Usa la sensibilità normale del mouse', 'Zoom con rotella in Alt Orbit', 'Intensità zoom orbita'), 'PT_BR': ('Inverter Y no Alt Orbit', 'Sensibilidade separada do Alt Orbit', 'Sensibilidade do Alt Orbit', 'Usa a sensibilidade normal do mouse', 'Zoom com roda no Alt Orbit', 'Intensidade do zoom orbital'), 'RU': ('Инвертировать Y в Alt Orbit', 'Отдельная чувствительность Alt Orbit', 'Чувствительность Alt Orbit', 'Используется обычная чувствительность мыши', 'Масштаб колесом в Alt Orbit', 'Сила масштабирования орбиты'), 'JA': ('Alt OrbitのYを反転', 'Alt Orbitの感度を個別設定', 'Alt Orbitの感度', '通常のマウス感度を使用', 'Alt Orbit中にホイールでズーム', 'Orbitズームの強さ'), 'ZH_CN': ('反转 Alt Orbit 的 Y 轴', '独立 Alt Orbit 灵敏度', 'Alt Orbit 灵敏度', '使用普通鼠标灵敏度', 'Alt Orbit 滚轮缩放', '环绕缩放强度'), 'UK': ('Інвертувати Y в Alt Orbit', 'Окрема чутливість Alt Orbit', 'Чутливість Alt Orbit', 'Використовує звичайну чутливість миші', 'Масштаб коліщатком в Alt Orbit', 'Сила масштабування орбіти'), 'CS': ('Obrátit Y v Alt Orbit', 'Oddělená citlivost Alt Orbit', 'Citlivost Alt Orbit', 'Používá běžnou citlivost myši', 'Přiblížení kolečkem v Alt Orbit', 'Síla přiblížení orbity'), 'NL': ('Y omkeren bij Alt Orbit', 'Afzonderlijke gevoeligheid Alt Orbit', 'Gevoeligheid Alt Orbit', 'Gebruikt normale muisgevoeligheid', 'Zoomen met muiswiel in Alt Orbit', 'Orbit-zoomsterkte'), 'TR': ('Alt Orbit Y yönünü ters çevir', 'Ayrı Alt Orbit hassasiyeti', 'Alt Orbit hassasiyeti', 'Normal fare hassasiyetini kullanır', 'Alt Orbit sırasında tekerlekle yakınlaştır', 'Orbit yakınlaştırma gücü'), 'KO': ('Alt Orbit Y 반전', 'Alt Orbit 감도 별도 설정', 'Alt Orbit 감도', '일반 마우스 감도 사용', 'Alt Orbit에서 휠 확대/축소', 'Orbit 확대/축소 강도')}
+for _lang, _values in _UVN158_LABELS.items():
+    _TEXT[_lang].update(dict(zip(('orbit_reverse_y', 'orbit_separate_sensitivity', 'orbit_sensitivity', 'orbit_shared_sensitivity_note', 'orbit_wheel_zoom', 'orbit_zoom_strength'), _values)))
+_EN.update(dict(zip(('orbit_reverse_y', 'orbit_separate_sensitivity', 'orbit_sensitivity', 'orbit_shared_sensitivity_note', 'orbit_wheel_zoom', 'orbit_zoom_strength'), _UVN158_LABELS["EN"])))
+
+# The switch changes only the orbit: its default matches normal RMB/WASD.
+_ORBIT_Y_STATUS = {
+    "EN": ("Default: orbit Y follows RMB/WASD mouse look", "Orbit Y is reversed relative to RMB/WASD"),
+    "PL": ("Domyślnie: oś Y jak przy RMB/WASD", "Oś Y orbity jest odwrotna niż przy RMB/WASD"),
+    "DE": ("Standard: Orbit-Y wie bei RMB/WASD", "Orbit-Y ist gegenüber RMB/WASD umgekehrt"),
+    "ES": ("Predeterminado: Y igual que RMB/WASD", "Y de órbita invertida respecto a RMB/WASD"),
+    "FR": ("Par défaut : Y comme RMB/WASD", "Y de l'orbite inversé par rapport à RMB/WASD"),
+    "IT": ("Predefinito: Y come RMB/WASD", "Y dell'orbita invertito rispetto a RMB/WASD"),
+    "PT_BR": ("Padrão: Y igual a RMB/WASD", "Y da órbita invertido em relação a RMB/WASD"),
+    "RU": ("По умолчанию: Y как при RMB/WASD", "Ось Y орбиты обратная по отношению к RMB/WASD"),
+    "JA": ("既定: Y軸はRMB/WASDと同じ", "オービットY軸はRMB/WASDと逆"),
+    "ZH_CN": ("默认: Y轴与RMB/WASD一致", "环绕Y轴与RMB/WASD相反"),
+    "UK": ("Типово: Y як у RMB/WASD", "Вісь Y орбіти протилежна до RMB/WASD"),
+    "CS": ("Výchozí: osa Y jako u RMB/WASD", "Osa Y oběhu je obrácená vůči RMB/WASD"),
+    "NL": ("Standaard: Y zoals bij RMB/WASD", "Orbit-Y is omgekeerd t.o.v. RMB/WASD"),
+    "TR": ("Varsayılan: Y, RMB/WASD ile aynı", "Orbit Y, RMB/WASD'ye göre ters"),
+    "KO": ("기본값: Y축은 RMB/WASD와 동일", "오비트 Y축은 RMB/WASD와 반대"),
+}
+for _language, (_normal, _reversed) in _ORBIT_Y_STATUS.items():
+    _TEXT[_language]["orbit_y_matches_wasd"] = _normal
+    _TEXT[_language]["orbit_y_reversed"] = _reversed
+_EN["orbit_y_matches_wasd"], _EN["orbit_y_reversed"] = _ORBIT_Y_STATUS["EN"]
+
+# Orbit v1.6.5 final hotfix: the confirmed correct camera-motion direction
+# is now default, and a NEW preference key avoids stale saved Blender values.
+_ORBIT_UI_TEXT = {
+    "EN": {
+        "navigation_speed_section": "Navigation & Speed",
+        "orbit_controls_title": "Orbit & Centering",
+        "orbit_pivot_title": "Pivot & Centering",
+        "orbit_direction_title": "Orbit Direction",
+        "orbit_advanced_title": "Sensitivity & Zoom",
+        "orbit_center_on_start": "Auto-center on orbit start",
+        "orbit_center_on_start_note": "Centers the selected object once when orbit starts; never tracks continuously",
+        "orbit_center_button": "Center Orbit on Selection",
+        "orbit_center_no_selection": "Select an object to center the orbit",
+        "orbit_center_modal_hint": "While orbiting: press {key} to center the selection",
+        "orbit_center_global_hint": "In the viewport: {shortcut} centers the selection",
+        "orbit_center_key": "Center key (during orbit and global shortcut)",
+        "orbit_center_modifier": "Global center modifiers",
+        "orbit_center_shortcut_enabled": "Enable viewport centering shortcut",
+        "orbit_center_view_help": "Centers selection without changing view angle or zoom",
+        "orbit_y_matches_eye": "Default: mouse up = orbit camera moves up",
+        "orbit_y_inverts_eye": "Inverted: mouse up = orbit camera moves down",
+        "camera_view_section": "Camera & View",
+        "center_shortcut_keys_note": "Press {key} while holding Orbit. Outside Orbit: {shortcut}",
+    },
+    "PL": {
+        "navigation_speed_section": "Nawigacja i prędkość",
+        "orbit_controls_title": "Orbita i centrowanie",
+        "orbit_pivot_title": "Środek obrotu i centrowanie",
+        "orbit_direction_title": "Kierunek obrotu",
+        "orbit_advanced_title": "Czułość i przybliżanie",
+        "orbit_center_on_start": "Automatycznie centruj przy rozpoczęciu Orbity",
+        "orbit_center_on_start_note": "Centruje zaznaczony obiekt raz przy starcie Orbity",
+        "orbit_center_button": "Wyśrodkuj Orbitę na zaznaczeniu",
+        "orbit_center_no_selection": "Zaznacz obiekt, aby wyśrodkować Orbitę",
+        "orbit_center_modal_hint": "Podczas Orbity: naciśnij {key}, aby wyśrodkować",
+        "orbit_center_global_hint": "W Viewporcie: {shortcut} centruje zaznaczenie",
+        "orbit_center_key": "Klawisz centrowania (podczas Orbity i globalnie)",
+        "orbit_center_modifier": "Modyfikatory skrótu centrowania",
+        "orbit_center_shortcut_enabled": "Włącz skrót centrowania w Viewporcie",
+        "orbit_center_view_help": "Centrowanie nie zmienia kąta widoku ani zoomu",
+        "orbit_y_matches_eye": "Domyślnie: mysz w górę = kamera Orbity w górę",
+        "orbit_y_inverts_eye": "Odwrócone: mysz w górę = kamera Orbity w dół",
+        "camera_view_section": "Kamera i widok",
+        "center_shortcut_keys_note": "Podczas Orbity: {key}; poza Orbitą: {shortcut}",
+    },
+}
+for _code in _TEXT:
+    _TEXT[_code].update(_ORBIT_UI_TEXT.get(_code, _ORBIT_UI_TEXT["EN"]))
+    # Reuse the existing translations for the Reverse Orbit Y toggle label.
+    _TEXT[_code]["orbit_invert_y"] = _TEXT[_code]["orbit_reverse_y"]
+_EN.update(_ORBIT_UI_TEXT["EN"])
+_EN["orbit_invert_y"] = _EN["orbit_reverse_y"]
+
+
+# Live controls reference shown directly in Add-on Preferences. All shortcuts
+# are formatted from the current preferences, never from static descriptions.
+_GUIDE_TEXT = {
+    "EN": {
+        "guide_title": "Controls & Keyboard Shortcuts",
+        "guide_intro": "Your current mouse buttons and keys (updates when you change them):",
+        "guide_navigation": "Navigation / WASD",
+        "guide_nav_note": "Hold the navigation mouse button while moving or looking around.",
+        "guide_look": "Look around / start navigation",
+        "guide_forward_back": "Move forward / backward",
+        "guide_left_right": "Move left / right",
+        "guide_up_down": "Move up / down",
+        "guide_sprint": "Sprint (hold during navigation)",
+        "guide_precision": "Precise, slow movement (hold)",
+        "guide_speed_up": "Increase movement speed",
+        "guide_speed_down": "Decrease movement speed",
+        "guide_finish_nav": "Release to finish navigation",
+        "guide_cancel_nav": "Finish navigation",
+        "guide_orbit": "Orbit & Centering",
+        "guide_orbit_note": "Select a model before orbiting around it.",
+        "guide_orbit_disabled": "Orbit is off; enable it in Orbit & Centering settings.",
+        "guide_orbit_action": "Orbit around selection (hold + move)",
+        "guide_center_during": "Center selection during Orbit",
+        "guide_finish_orbit": "Release to finish Orbit",
+        "guide_cancel_orbit": "Undo current Orbit / restore view",
+        "guide_orbit_zoom_in": "Zoom in while orbiting",
+        "guide_orbit_zoom_out": "Zoom out while orbiting",
+        "guide_center_viewport": "Center selection in the Viewport",
+        "guide_editor": "Optional Editor Shortcuts (Object Mode)",
+        "guide_editor_note": "Only active in Object Mode; other Blender modes keep their keys.",
+        "guide_editor_disabled": "Off by default. Blender's editing shortcuts stay unchanged.",
+        "guide_editor_select": "Select tool",
+        "guide_editor_move": "Move tool",
+        "guide_editor_rotate": "Rotate tool",
+        "guide_editor_scale": "Scale tool",
+        "guide_editor_frame": "Frame selected object",
+        "guide_editor_duplicate": "Duplicate and move",
+        "guide_editor_orientation": "Switch Local / Global orientation",
+        "guide_editor_snap": "Toggle snapping",
+        "guide_editor_overlays": "Show / hide viewport overlays",
+        "guide_footer": "To remap keys, expand Key Bindings below.",
+    },
+    "PL": {
+        "guide_title": "Sterowanie i skróty klawiszowe",
+        "guide_intro": "Twoje aktualne przyciski (lista zmienia się wraz z ustawieniami):",
+        "guide_navigation": "Nawigacja / WASD",
+        "guide_nav_note": "Podczas ruchu i rozglądania się trzymaj przycisk nawigacji.",
+        "guide_look": "Rozglądanie się / rozpoczęcie nawigacji",
+        "guide_forward_back": "Ruch do przodu / do tyłu",
+        "guide_left_right": "Ruch w lewo / w prawo",
+        "guide_up_down": "Ruch w górę / w dół",
+        "guide_sprint": "Sprint (przytrzymaj podczas ruchu)",
+        "guide_precision": "Precyzyjny, wolniejszy ruch",
+        "guide_speed_up": "Zwiększ prędkość poruszania",
+        "guide_speed_down": "Zmniejsz prędkość poruszania",
+        "guide_finish_nav": "Puść, aby zakończyć nawigację",
+        "guide_cancel_nav": "Zakończ nawigację",
+        "guide_orbit": "Orbita i centrowanie",
+        "guide_orbit_note": "Zaznacz model, aby orbitować wokół niego.",
+        "guide_orbit_disabled": "Orbita jest wyłączona; włącz ją w sekcji Orbita i centrowanie.",
+        "guide_orbit_action": "Obrót wokół modelu (przytrzymaj + ruch)",
+        "guide_center_during": "Wyśrodkuj zaznaczenie podczas Orbity",
+        "guide_finish_orbit": "Puść, aby zakończyć Orbitę",
+        "guide_cancel_orbit": "Cofnij Orbitę / przywróć widok",
+        "guide_orbit_zoom_in": "Przybliżaj podczas Orbity",
+        "guide_orbit_zoom_out": "Oddalaj podczas Orbity",
+        "guide_center_viewport": "Wyśrodkuj zaznaczenie w Viewporcie",
+        "guide_editor": "Opcjonalne skróty edycji (Object Mode)",
+        "guide_editor_note": "Działają tylko w Object Mode, nie w pozostałych trybach.",
+        "guide_editor_disabled": "Domyślnie wyłączone. Skróty Blendera pozostają bez zmian.",
+        "guide_editor_select": "Narzędzie zaznaczania",
+        "guide_editor_move": "Narzędzie przesuwania",
+        "guide_editor_rotate": "Narzędzie obracania",
+        "guide_editor_scale": "Narzędzie skalowania",
+        "guide_editor_frame": "Pokaż zaznaczony obiekt",
+        "guide_editor_duplicate": "Duplikuj i przesuń",
+        "guide_editor_orientation": "Przełącz lokalne / globalne osie",
+        "guide_editor_snap": "Włącz / wyłącz przyciąganie",
+        "guide_editor_overlays": "Pokaż / ukryj elementy Viewportu",
+        "guide_footer": "Przypisania możesz zmienić niżej w sekcji Skróty klawiszowe.",
+    },
+}
+for _code in _TEXT:
+    # Missing languages display the English guide instead of raw keys.
+    _TEXT[_code].update(_GUIDE_TEXT.get(_code, _GUIDE_TEXT["EN"]))
+_EN.update(_GUIDE_TEXT["EN"])
 
 _KEYBOARD_KEY_ITEMS = (
     ("A", "A", "A"), ("B", "B", "B"), ("C", "C", "C"), ("D", "D", "D"), ("E", "E", "E"), ("F", "F", "F"), ("G", "G", "G"), ("H", "H", "H"), ("I", "I", "I"), ("J", "J", "J"), ("K", "K", "K"), ("L", "L", "L"), ("M", "M", "M"), ("N", "N", "N"), ("O", "O", "O"), ("P", "P", "P"), ("Q", "Q", "Q"), ("R", "R", "R"), ("S", "S", "S"), ("T", "T", "T"), ("U", "U", "U"), ("V", "V", "V"), ("W", "W", "W"), ("X", "X", "X"), ("Y", "Y", "Y"), ("Z", "Z", "Z"),
@@ -366,6 +544,19 @@ _KEYBOARD_KEY_ITEMS = (
     ("NUMPAD_9", "Numpad 9", "Numpad 9"), ("NUMPAD_7", "Numpad 7", "Numpad 7"),
     ("NUMPAD_5", "Numpad 5", "Numpad 5"), ("NUMPAD_1", "Numpad 1", "Numpad 1"),
     ("NUMPAD_3", "Numpad 3", "Numpad 3"),
+)
+
+# The global Center Orbit shortcut defaults to Ctrl+Alt+F. The same key
+# (without the modifiers) works while already holding the Orbit mouse button.
+_ORBIT_CENTER_KEY_ITEMS = tuple(item for item in _KEYBOARD_KEY_ITEMS if len(item[0]) == 1 and item[0].isalpha())
+_ORBIT_CENTER_MODIFIER_ITEMS = (
+    ("CTRL_ALT", "Ctrl + Alt", "Ctrl and Alt together (recommended)"),
+    ("CTRL_SHIFT", "Ctrl + Shift", "Ctrl and Shift together"),
+    ("ALT_SHIFT", "Alt + Shift", "Alt and Shift together"),
+    ("CTRL", "Ctrl", "Control"),
+    ("ALT", "Alt", "Alt"),
+    ("SHIFT", "Shift", "Shift"),
+    ("NONE", "None", "No modifier; may override Blender keys"),
 )
 
 _HOLD_KEY_ITEMS = (
@@ -384,6 +575,14 @@ _SPEED_KEY_ITEMS = (
 
 
 _ENUM_PROPERTY_ITEMS = {
+    "editor_shortcut_profile": (
+        ("AUTO", "Follow Navigation Preset", "Uses selected navigation profile"),
+        ("UNREAL", "Unreal Engine", "Unreal-style editing keys"),
+        ("UNITY", "Unity", "Unity-style editing keys"),
+        ("GODOT", "Godot", "Godot-style editing keys"),
+        ("MAYA", "Maya", "Maya-style editing keys"),
+        ("BASIC", "Basic", "Common editing shortcuts"),
+    ),
     "ui_language": _LANGUAGE_ITEMS,
     "navigation_preset": _NAVIGATION_PRESET_ITEMS,
     "navigation_mouse": _MOUSE_BUTTON_ITEMS,
@@ -403,6 +602,8 @@ _ENUM_PROPERTY_ITEMS = {
     "movement_mode": _MOVEMENT_MODE_ITEMS,
     "orbit_mouse": _MOUSE_BUTTON_ITEMS,
     "orbit_modifier": _MODIFIER_ITEMS,
+    "orbit_center_key": _ORBIT_CENTER_KEY_ITEMS,
+    "orbit_center_modifier": _ORBIT_CENTER_MODIFIER_ITEMS,
     "crosshair_style": _CROSSHAIR_STYLE_ITEMS,
     "info_position": _HUD_POSITION_ITEMS,
 }
@@ -501,8 +702,11 @@ def _language(prefs):
     return lang if lang in _TEXT else "EN"
 
 
-def _tr(prefs, key, **kwargs):
-    text = _TEXT[_language(prefs)].get(key, _EN.get(key, key))
+def _tr(prefs, token, **kwargs):
+    # "key" is a valid placeholder in translated strings such as the orbit
+    # center hint. Do not call the lookup parameter "key" too: doing so made
+    # Preferences draw fail with a duplicate-argument TypeError.
+    text = _TEXT[_language(prefs)].get(token, _EN.get(token, token))
     return text.format(**kwargs) if kwargs else text
 
 
@@ -636,6 +840,13 @@ def _movement_keys_label(prefs):
     return {"WASD": "WASD", "ARROWS": "Arrow keys", "BOTH": "WASD / Arrow keys"}.get(mode, "WASD")
 
 
+def _orbit_center_shortcut(prefs):
+    modifier = getattr(prefs, "orbit_center_modifier", "CTRL_ALT")
+    parts = [part.capitalize() for part in modifier.split("_") if part != "NONE"]
+    parts.append(_key_label(getattr(prefs, "orbit_center_key", "F")))
+    return "+".join(parts)
+
+
 def _orbit_shortcut(prefs, include_guard=False):
     # Camera protection is a setting, not a fragile three-button chord.
     return _shortcut_label(
@@ -667,3 +878,32 @@ def _header_text(prefs):
         parts.append(_controls_short(prefs))
     return " | ".join(parts) if parts else None
 
+
+
+# Settings section controls: independent of the optional shortcut guide.
+_SETTINGS_VIEW_TEXT = {
+    "EN": {
+        "all_settings_label": "All settings (expand any group to customize it)",
+        "expand_settings": "Show all settings",
+        "collapse_settings": "Collapse sections",
+        "guide_unavailable": "Controls guide unavailable; the settings above still work.",
+    },
+    "PL": {
+        "all_settings_label": "Wszystkie ustawienia dodatku",
+        "expand_settings": "Pokaż wszystkie",
+        "collapse_settings": "Zwiń sekcje",
+        "guide_unavailable": "Nie można wyświetlić opisu skrótów; ustawienia powyżej działają.",
+    },
+}
+for _code in _TEXT:
+    _TEXT[_code].update(_SETTINGS_VIEW_TEXT.get(_code, _SETTINGS_VIEW_TEXT["EN"]))
+_EN.update(_SETTINGS_VIEW_TEXT["EN"])
+
+_EN["settings_scroll_hint"] = "All 9 setting groups are below. Scroll down to see every option."
+for _code in _TEXT:
+    _TEXT[_code]["settings_scroll_hint"] = (
+        "Poniżej jest 9 grup ustawień. Przewiń w dół, aby zobaczyć wszystkie opcje."
+        if _code == "PL" else _EN["settings_scroll_hint"]
+    )
+
+_UVN_REPAIR_BUILD = "1.6.5-navigation-only-expanded-2026-11-01"
